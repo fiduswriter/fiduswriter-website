@@ -7,7 +7,8 @@ export class PublishDoc extends HTMLExporter {
     download(blob) {
         return post(
             '/api/publish/publish_doc/',
-            {id: this.doc.id,
+            {
+                doc_id: this.doc.id,
                 zip: blob
             }
         )

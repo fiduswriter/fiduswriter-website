@@ -1,4 +1,4 @@
-import {addAlert, activateWait, deactivateWait, postJson, post, Dialog} from "../common"
+import {addAlert, postJson, post, Dialog} from "../common"
 import {submitDialogTemplate, publishDialogTemplate} from "./templates"
 import {PublishDoc} from "./publish_doc"
 import {READ_ONLY_ROLES, COMMENT_ONLY_ROLES} from "../editor"
@@ -106,35 +106,30 @@ export class EditorPublish {
             '/api/publish/submit_doc/',
             docData
         ).then(
-            () => {
-                this.submission.status = 'submitted'
+            json => {
+                this.submission.status = json.status
+                this.submission.message_to_editor = messageToEditor
                 addAlert('info', gettext('Submitted document for publication.'))
             }
         )
     }
 
-
-    publishDoc() {
-        const publisher = new PublishDoc({
-            doc: this.editor.getDoc(),
-            imageDB: this.editor.mod.db.imageDB,
-            bibDB: this.editor.mod.db.bibDB,
-        })
-        return publisher.init().then(
-            () => {
-                this.submission.status = 'published'
-                addAlert('info', gettext('Published document.'))
-            }
-        )
-    }
-
     // The dialog for a document reviewer.
-    reviewerDialog() {
+    publishDialog() {
         const buttons = [
                 {
-                    text: gettext('Send'),
+                    text: gettext('Publish'),
                     click: () => {
-                        if (this.submitReview()) {
+                        if (this.publish()) {
+                            dialog.close()
+                        }
+                    },
+                    classes: 'fw-dark'
+                },
+                {
+                    text: gettext('Reject'),
+                    click: () => {
+                        if (this.reject()) {
                             dialog.close()
                         }
                     },
@@ -144,53 +139,51 @@ export class EditorPublish {
                     type: 'cancel'
                 }
             ],
-            reviewMessageEl = document.getElementById('review-message'),
             dialog = new Dialog({
                 height: 260,
                 width: 350,
                 id: "review-message",
-                title: gettext('Leave your message for submitter'),
-                body: publishDialogTemplate(),
+                title: gettext('Publish or reject'),
+                body: publishDialogTemplate({
+                    messageToEditor: this.submission.message_to_editor
+                }),
                 buttons
             })
-        if (reviewMessageEl) {
-            reviewMessageEl.parentElement.removeChild(reviewMessageEl)
-        }
 
         dialog.open()
     }
 
-    // Send the opinion of the reviewer to OJS.
-    submitReview() {
-        const editor_message = document.getElementById("message-editor").value,
-            editor_author_message = document.getElementById("message-editor-author").value,
-            recommendation = document.getElementById("recommendation").value
-        if (editor_message === '' || editor_author_message === '' || recommendation === '') {
-            addAlert('error', gettext('Fill out all fields before submitting!'))
-            return false
-        }
-        activateWait()
-        post(
-            '/proxy/ojs/reviewer_submit',
-            {
-                doc_id: this.editor.docInfo.id,
-                editor_message,
-                editor_author_message,
-                recommendation
-            }
-        ).then(
+
+    publish() {
+        const publisher = new PublishDoc(
+            this.editor.schema,
+            this.editor.app.csl,
+            this.editor.mod.documentTemplate.documentStyles,
+            this.editor.getDoc({changes: 'acceptAllNoInsertions'}),
+            this.editor.mod.db.bibDB,
+            this.editor.mod.db.imageDB,
+            this.editor.docInfo.updated
+        )
+        return publisher.init().then(
             () => {
-                deactivateWait()
-                addAlert('success', gettext('Review submitted'))
-                window.setTimeout(() => window.location.reload(), 2000)
-            }
-        ).catch(
-            error => {
-                addAlert('error', gettext('Review could not be submitted.'))
-                throw (error)
+                this.submission.status = 'published'
+                this.submission.message_to_editor = ""
+                addAlert('info', gettext('Published document.'))
             }
         )
-        return true
+    }
+
+
+    reject() {
+        post(
+            '/api/publish/reject_doc/'
+        ).then(
+            () => {
+                this.submission.status = "unsubmitted"
+                this.submission.message_to_editor = ""
+                addAlert('info', gettext('Publication of document has been rejected.'))
+            }
+        )
     }
 
 }

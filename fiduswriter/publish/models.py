@@ -25,6 +25,9 @@ class Publication(models.Model):
     )
     message_to_editor = models.TextField(default="")
 
+    def __str__(self):
+        return f"Document {self.document_id} ({self.status})"
+
 
 class Editor(models.Model):
     user = models.ForeignKey(
@@ -33,3 +36,6 @@ class Editor(models.Model):
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
+
+    def __str__(self):
+        return f"Editor {self.user.username}"
