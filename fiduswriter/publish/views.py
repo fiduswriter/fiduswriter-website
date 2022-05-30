@@ -1,10 +1,11 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+from django.contrib.contenttypes.models import ContentType
 
 from document.models import Document, AccessRight
 
-from . import models
+from . import models, emails
 
 
 @login_required
@@ -56,7 +57,7 @@ def submit_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user
+            document=document, user=request.user, right="write"
         ).first()
     ):
         # Access forbidden
@@ -77,6 +78,26 @@ def submit_doc(request):
         else:
             publication.status = "submitted"
         publication.save()
+    link = HttpRequest.build_absolute_uri(request, document.get_absolute_url())
+    user_ct = ContentType.objects.get(app_label="user", model="user")
+    for editor in models.Editor.objects.select_related("user").all():
+        if editor.user == document.owner or request.user == editor.user:
+            continue
+        access_right, created = AccessRight.objects.get_or_create(
+            document_id=document_id,
+            holder_id=editor.user.id,
+            holder_type=user_ct,
+            defaults={
+                "rights": "write",
+            },
+        )
+        if not created and access_right.rights != "write":
+            access_right.rights = "write"
+            access_right.save()
+        emails.send_submit_notification(
+            document.title, link, editor.user.readable_name, editor.user.email
+        )
+
     response["status"] = publication.status
     return JsonResponse(response, status=status)
 
