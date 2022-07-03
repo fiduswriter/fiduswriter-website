@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.html import escape
 from django.utils.translation import gettext as _
 
 from base.html_email import html_email
@@ -8,6 +9,7 @@ from base.html_email import html_email
 def send_submit_notification(
     document_title,
     link,
+    message,
     editor_name,
     editor_email,
 ):
@@ -25,13 +27,18 @@ def send_submit_notification(
     )
     body_html_intro = _(
         (
-            f"<p>Hey {editor_name}<br>the document '{document_title}' has "
+            f"<p>Hey {escape(editor_name)}<br>the document '{escape(document_title)}' has "
             "been submitted to be published. You or another editor need to "
             "approve it before it will be made accessible to the general "
             "public.</p>"
         )
     )
-    review_document_str = _(f"Review {document_title}")
+    if len(message):
+        message_text += _(f"Message from the author: {message}")
+        body_html_intro += _(
+            f"<p>Message from the author: {escape(message)}</p>"
+        )
+    review_document_str = _(f"Review {escape(document_title)}")
     access_the_document_str = _("Access the Document")
     document_str = _("Document")
     body_html = (
@@ -47,7 +54,7 @@ def send_submit_notification(
         "</a></div>"
     )
     send_mail(
-        _(f"Document shared: {document_title}"),
+        _(f"Document shared: {escape(document_title)}"),
         message_text,
         settings.DEFAULT_FROM_EMAIL,
         [editor_email],

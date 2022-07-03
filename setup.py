@@ -3,6 +3,7 @@ from glob import glob
 from setuptools import find_namespace_packages, setup
 from setuptools.command.build_py import build_py as _build_py
 
+
 # From https://github.com/pypa/setuptools/pull/1574
 class build_py(_build_py):
     def find_package_modules(self, package, package_dir):
@@ -23,38 +24,39 @@ class build_py(_build_py):
                     modules.remove(module)
         return modules
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+
+with open(os.path.join(os.path.dirname(__file__), "README.rst")) as readme:
     README = readme.read()
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='fiduswriter-publish',
-    version='3.10.0a1',
+    name="fiduswriter-publish",
+    version="3.10.0a1",
     packages=find_namespace_packages(),
     exclude_package_data={
         "": ["configuration.py", "django-admin.py", "build/*"]
     },
     include_package_data=True,
-    license='AGPL License',
+    license="AGPL License",
     description=(
-        'A Fidus Writer plugin to allow publishing articles publically directly.'
+        "A Fidus Writer plugin to allow publishing articles publically directly."
     ),
     long_description=README,
-    url='https://www.github.org/fiduswriter/fiduswriter-publish',
-    author='Johannes Wilm',
-    author_email='johannes@fiduswriter.org',
+    url="https://www.github.org/fiduswriter/fiduswriter-publish",
+    author="Johannes Wilm",
+    author_email="johannes@fiduswriter.org",
     classifiers=[
-        'Environment :: Web Environment',
-        'Framework :: Django',
-        'Framework :: Django :: 3.2',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Affero General Public License v3',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        "Environment :: Web Environment",
+        "Framework :: Django",
+        "Framework :: Django :: 3.2",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU Affero General Public License v3",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    cmdclass={'build_py': build_py}
+    cmdclass={"build_py": build_py},
 )

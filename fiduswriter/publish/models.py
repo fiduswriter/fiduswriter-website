@@ -23,7 +23,7 @@ class Publication(models.Model):
     status = models.CharField(
         choices=STATUS_CHOICES, max_length=11, default="unsubmitted"
     )
-    message_to_editor = models.TextField(default="")
+    messages = models.JSONField(default=list)
 
     def __str__(self):
         return f"Document {self.document_id} ({self.status})"

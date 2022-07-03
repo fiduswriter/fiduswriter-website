@@ -1,3 +1,5 @@
+import time
+
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -30,12 +32,10 @@ def get_doc_info(request):
     ).first()
     if publication:
         response["submission"]["status"] = publication.status
-        response["submission"][
-            "message_to_editor"
-        ] = publication.message_to_editor
+        response["submission"]["messages"] = publication.messages
     else:
         response["submission"]["status"] = "unsubmitted"
-        response["submission"]["message_to_editor"] = ""
+        response["submission"]["messages"] = []
     if models.Editor.objects.filter(user_id=request.user.id):
         user_role = "editor"
     else:
@@ -62,22 +62,24 @@ def submit_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    message_to_editor = request.POST.get("message_to_editor")
     publication, created = models.Publication.objects.get_or_create(
         document_id=document_id,
-        defaults={
-            "submitter": request.user,
-            "status": "submitted",
-            "message_to_editor": message_to_editor,
-        },
+        defaults={"submitter": request.user, "status": "submitted"},
     )
+    message = {
+        "type": "submit",
+        "message": request.POST.get("message"),
+        "user": request.user.readable_name,
+        "time": time.time(),
+    }
+    publication.messages.append(message)
+    response["message"] = message
     if not created:
-        publication.message_to_editor = message_to_editor
         if publication.status in ["published", "resubmitted"]:
             publication.status = "resubmitted"
         else:
             publication.status = "submitted"
-        publication.save()
+    publication.save()
     link = HttpRequest.build_absolute_uri(request, document.get_absolute_url())
     user_ct = ContentType.objects.get(app_label="user", model="user")
     for editor in models.Editor.objects.select_related("user").all():
@@ -95,7 +97,11 @@ def submit_doc(request):
             access_right.rights = "write"
             access_right.save()
         emails.send_submit_notification(
-            document.title, link, editor.user.readable_name, editor.user.email
+            document.title,
+            link,
+            message,
+            editor.user.readable_name,
+            editor.user.email,
         )
 
     response["status"] = publication.status
@@ -111,7 +117,6 @@ def reject_doc(request):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
-    status = 200
     document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
@@ -123,11 +128,60 @@ def reject_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    publication = models.Publication.objects.filter(
-        document_id=document.id
-    ).first()
-    if publication:
-        publication.delete()
+    status = 200
+    publication, created = models.Publication.objects.get_or_create(
+        document_id=document_id,
+        defaults={"submitter": request.user, "status": "rejected"},
+    )
+    if not created:
+        publication.status = "rejected"
+    message = {
+        "type": "reject",
+        "message": request.POST.get("message"),
+        "user": request.user.readable_name,
+        "time": time.time(),
+    }
+    publication.messages.append(message)
+    publication.save()
+    response["message"] = message
+    response["status"] = publication.status
+    return JsonResponse(response, status=status)
+
+
+@login_required
+@require_POST
+def review_doc(request):
+    response = {}
+    editor = models.Editor.objects.filter(user=request.user).first()
+    if not editor:
+        # Access forbidden
+        return HttpResponse("Missing access rights", status=403)
+    document_id = int(request.POST.get("doc_id"))
+    document = Document.objects.filter(id=document_id).first()
+    if not document:
+        return HttpResponse("Not found", status=404)
+    if (
+        document.owner != request.user
+        and not AccessRight.objects.filter(
+            document=document, user=request.user
+        ).first()
+    ):
+        # Access forbidden
+        return HttpResponse("Missing access rights", status=403)
+    status = 200
+    publication, _created = models.Publication.objects.get_or_create(
+        document_id=document_id,
+        defaults={"submitter": request.user, "status": "unsubmitted"},
+    )
+    message = {
+        "type": "review",
+        "message": request.POST.get("message"),
+        "user": request.user.readable_name,
+        "time": time.time(),
+    }
+    publication.messages.append(message)
+    publication.save()
+    response["message"] = message
     return JsonResponse(response, status=status)
 
 
@@ -140,23 +194,32 @@ def publish_doc(request):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
-    status = 200
-    publication = (
-        models.Publication.objects.select_related("document")
-        .filter(document_id=document_id)
-        .first()
-    )
-    if not publication:
+    document = Document.models.objects.filter(id=document_id).first()
+    if not document:
         return HttpResponse("Not found", status=404)
     if (
-        publication.document.owner != request.user
+        document.owner != request.user
         and not AccessRight.objects.filter(
-            document=publication.document, user=request.user
+            document=document, user=request.user, right="write"
         ).first()
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    publication.status = "published"
-    publication.message_to_editor = ""
+    publication, created = models.Publication.objects.get_or_create(
+        document_id=document_id,
+        defaults={"submitter": request.user, "status": "published"},
+    )
+    if not created:
+        publication.status = "published"
+    message = {
+        "type": "publish",
+        "message": request.POST.get("message"),
+        "user": request.user.readable_name,
+        "time": time.time(),
+    }
+    publication.messages.append(message)
     publication.save()
+    response["message"] = message
+    response["status"] = publication.status
+    status = 200
     return JsonResponse(response, status=status)

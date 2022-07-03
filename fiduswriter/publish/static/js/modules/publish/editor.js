@@ -1,5 +1,5 @@
-import {addAlert, postJson, post, Dialog} from "../common"
-import {submitDialogTemplate, publishDialogTemplate} from "./templates"
+import {addAlert, postJson, Dialog} from "../common"
+import {submitDialogTemplate} from "./templates"
 import {PublishDoc} from "./publish_doc"
 import {READ_ONLY_ROLES, COMMENT_ONLY_ROLES} from "../editor"
 
@@ -75,9 +75,10 @@ export class EditorPublish {
                 text: gettext("Submit"),
                 classes: "fw-dark",
                 click: () => {
-                    const messageToEditor = document.getElementById("submission-message").value.trim()
-                    this.submitDoc({messageToEditor})
-                    dialog.close()
+                    const message = document.getElementById("submission-message").value.trim()
+                    this.submitDoc({message}).then(
+                        () => dialog.close()
+                    )
                 }
             },
             {
@@ -86,29 +87,29 @@ export class EditorPublish {
         ]
 
         const dialog = new Dialog({
-            height: 260,
-            width: 350,
+            width: 750,
             buttons,
             title: gettext('Submit document to be published on website'),
             body: submitDialogTemplate({
-                messageToEditor: this.submission.message_to_editor
+                messages: this.submission.messages,
+                status: this.submission.status
             })
         })
         dialog.open()
     }
 
-    submitDoc({messageToEditor}) {
+    submitDoc({message}) {
         const docData = {
             doc_id: this.editor.docInfo.id,
-            message_to_editor: messageToEditor
+            message
         }
-        postJson(
+        return postJson(
             '/api/publish/submit_doc/',
             docData
         ).then(
-            json => {
+            ({json}) => {
                 this.submission.status = json.status
-                this.submission.message_to_editor = messageToEditor
+                this.submission.messages.push(json.message)
                 addAlert('info', gettext('Submitted document for publication.'))
             }
         )
@@ -120,18 +121,30 @@ export class EditorPublish {
                 {
                     text: gettext('Publish'),
                     click: () => {
-                        if (this.publish()) {
-                            dialog.close()
-                        }
+                        const message = document.getElementById("submission-message").value.trim()
+                        this.publish(message).then(
+                            () => dialog.close()
+                        )
+                    },
+                    classes: 'fw-dark'
+                },
+                {
+                    text: gettext('Ask for changes'),
+                    click: () => {
+                        const message = document.getElementById("submission-message").value.trim()
+                        this.review(message).then(
+                            () => dialog.close()
+                        )
                     },
                     classes: 'fw-dark'
                 },
                 {
                     text: gettext('Reject'),
                     click: () => {
-                        if (this.reject()) {
-                            dialog.close()
-                        }
+                        const message = document.getElementById("submission-message").value.trim()
+                        this.reject(message).then(
+                            () => dialog.close()
+                        )
                     },
                     classes: 'fw-dark'
                 },
@@ -140,12 +153,12 @@ export class EditorPublish {
                 }
             ],
             dialog = new Dialog({
-                height: 260,
-                width: 350,
+                width: 750,
                 id: "review-message",
-                title: gettext('Publish or reject'),
-                body: publishDialogTemplate({
-                    messageToEditor: this.submission.message_to_editor
+                title: gettext('Publish, reject or ask for changes'),
+                body: submitDialogTemplate({
+                    messages: this.submission.messages,
+                    status: this.submission.status
                 }),
                 buttons
             })
@@ -154,7 +167,7 @@ export class EditorPublish {
     }
 
 
-    publish() {
+    publish(message) {
         const publisher = new PublishDoc(
             this.editor.schema,
             this.editor.app.csl,
@@ -162,26 +175,46 @@ export class EditorPublish {
             this.editor.getDoc({changes: 'acceptAllNoInsertions'}),
             this.editor.mod.db.bibDB,
             this.editor.mod.db.imageDB,
-            this.editor.docInfo.updated
+            this.editor.docInfo.updated,
+            message
         )
         return publisher.init().then(
-            () => {
-                this.submission.status = 'published'
-                this.submission.message_to_editor = ""
+            ({json}) => {
+                this.submission.status = json.status
+                this.submission.messages.push(json.message)
                 addAlert('info', gettext('Published document.'))
             }
         )
     }
 
 
-    reject() {
-        post(
-            '/api/publish/reject_doc/'
+    reject(message) {
+        return postJson(
+            '/api/publish/reject_doc/',
+            {
+                doc_id: this.editor.docInfo.id,
+                message
+            }
         ).then(
-            () => {
-                this.submission.status = "unsubmitted"
-                this.submission.message_to_editor = ""
+            ({json}) => {
+                this.submission.status = json.status
+                this.submission.messages.push(json.message)
                 addAlert('info', gettext('Publication of document has been rejected.'))
+            }
+        )
+    }
+
+    review(message) {
+        return postJson(
+            '/api/publish/review_doc/',
+            {
+                doc_id: this.editor.docInfo.id,
+                message
+            }
+        ).then(
+            ({json}) => {
+                this.submission.messages.push(json.message)
+                addAlert('info', gettext('Document has been reviewed. Request for changes has been sent.'))
             }
         )
     }
