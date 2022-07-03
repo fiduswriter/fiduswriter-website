@@ -35,16 +35,16 @@ export class EditorPublish {
 
     setupUI() {
         const websiteMenu = {
-            title: gettext('Website'),
-            id: 'website',
+            title: gettext('Publish'),
+            id: 'publish',
             type: 'menu',
             tooltip: gettext('Publish to website'),
             order: 10,
             disabled: editor => editor.docInfo.access_rights !== 'write',
             content: [{
-                title: this.submission.user_role === 'editor' ? gettext('Publish / Reject') : gettext('Submit'),
+                title: gettext('Submit'),
                 type: 'action',
-                tooltip: this.submission.user_role === 'editor' ? gettext('Submit publishing decision') : gettext('Submit for publishing to website'),
+                tooltip: this.submission.user_role === 'editor' ? gettext('Publish, reject or request changes') : gettext('Submit for publishing to website'),
                 action: () => {
                     if (this.submission.user_role === 'editor') {
                         this.publishDialog()
@@ -169,14 +169,14 @@ export class EditorPublish {
 
     publish(message) {
         const publisher = new PublishDoc(
+            message,
             this.editor.schema,
             this.editor.app.csl,
             this.editor.mod.documentTemplate.documentStyles,
             this.editor.getDoc({changes: 'acceptAllNoInsertions'}),
             this.editor.mod.db.bibDB,
             this.editor.mod.db.imageDB,
-            this.editor.docInfo.updated,
-            message
+            this.editor.docInfo.updated
         )
         return publisher.init().then(
             ({json}) => {

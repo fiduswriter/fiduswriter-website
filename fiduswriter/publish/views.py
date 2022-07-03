@@ -194,7 +194,7 @@ def publish_doc(request):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
-    document = Document.models.objects.filter(id=document_id).first()
+    document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
     if (
@@ -205,12 +205,12 @@ def publish_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    publication, created = models.Publication.objects.get_or_create(
-        document_id=document_id,
-        defaults={"submitter": request.user, "status": "published"},
-    )
-    if not created:
-        publication.status = "published"
+    publication = models.Publication.objects.filter(
+        document_id=document_id
+    ).first()
+    if not publication:
+        return HttpResponse("Not found", status=404)
+    publication.status = "published"
     message = {
         "type": "publish",
         "message": request.POST.get("message"),

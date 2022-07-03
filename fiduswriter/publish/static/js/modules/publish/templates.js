@@ -2,10 +2,10 @@ import {escapeText, localizeDate} from "../common"
 
 
 const EVENT_TYPES = {
-    'submit': gettext('Submit'),
-    'publish': gettext('Publish'),
-    'review': gettext('Review'),
-    'reject': gettext('Reject')
+    'submit': gettext('Submitted'),
+    'publish': gettext('Published'),
+    'review': gettext('Reviewed'),
+    'reject': gettext('Rejected')
 }
 
 const STATUS_TYPES = {
@@ -29,7 +29,7 @@ const messageTr = ({messages}) => {
             ${
     messages.slice().reverse().map(
         event =>
-            `<div class="fw-inline">
+            `<div>
                 <i>${localizeDate(event.time * 1000)}</i>
                 &nbsp;
                 <b>${EVENT_TYPES[event.type]}</b>
