@@ -15,7 +15,7 @@ export class PublishDoc extends HTMLExporter {
             '/api/publish/publish_doc/',
             {
                 doc_id: this.doc.id,
-                zip: blob,
+                'html.zip': {file: blob, filename: 'html.zip'},
                 message: this.message
             }
         )

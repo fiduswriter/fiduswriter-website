@@ -10,6 +10,13 @@ class PublicationAdmin(admin.ModelAdmin):
 admin.site.register(models.Publication, PublicationAdmin)
 
 
+class PublicationAssetAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(models.PublicationAsset, PublicationAssetAdmin)
+
+
 class EditorAdmin(admin.ModelAdmin):
     pass
 

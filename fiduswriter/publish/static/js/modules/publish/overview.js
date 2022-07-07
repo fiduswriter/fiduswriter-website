@@ -2,7 +2,7 @@ import {whenReady, ensureCSS, setDocTitle} from "../common"
 import {baseBodyTemplate} from "./templates"
 
 
-export class ContentOverview {
+export class WebsiteOverview {
 
     constructor({app, user}) {
         this.app = app

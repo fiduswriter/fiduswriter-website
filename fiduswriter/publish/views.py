@@ -1,6 +1,8 @@
 import time
+import zipfile
 
 from django.http import HttpResponse, JsonResponse, HttpRequest
+from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.contenttypes.models import ContentType
@@ -210,6 +212,15 @@ def publish_doc(request):
     ).first()
     if not publication:
         return HttpResponse("Not found", status=404)
+    # Delete all existing assets
+    models.PublicationAsset.objects.filter(publication=publication).delete()
+    html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
+    doc_html = str(html_zip.open("document.html").read())
+    body_html = doc_html[
+        doc_html.find('<body class="article">')
+        + 22 : doc_html.rfind("</body>")
+    ]
+    publication.html_src = body_html
     publication.status = "published"
     message = {
         "type": "publish",
@@ -218,8 +229,29 @@ def publish_doc(request):
         "time": time.time(),
     }
     publication.messages.append(message)
-    publication.save()
     response["message"] = message
+    publication.save()
+
+    # Iterate over document files
+    for filepath in html_zip.namelist():
+        if (
+            filepath.endswith("/")
+            or filepath == "document.html"
+            or filepath not in body_html
+        ):
+            continue
+        file = ContentFile(
+            html_zip.open(filepath).read(), name=filepath.split("/")[-1]
+        )
+        asset = models.PublicationAsset.objects.create(
+            publication=publication, file=file, filepath=filepath
+        )
+        body_html = body_html.replace(filepath, asset.file.url)
+
+    # Save html with adjusted links to media files with publication.
+    publication.html_output = body_html
+    publication.save()
+
     response["status"] = publication.status
     status = 200
     return JsonResponse(response, status=status)
