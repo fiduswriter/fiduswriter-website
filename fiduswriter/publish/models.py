@@ -16,6 +16,7 @@ class Publication(models.Model):
     document = models.OneToOneField(
         Document, on_delete=models.deletion.CASCADE
     )
+    title = models.CharField(max_length=255, default="", blank=True)
     submitter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,

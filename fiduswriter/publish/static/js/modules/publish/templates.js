@@ -59,7 +59,3 @@ export const submitDialogTemplate = ({messages, status}) =>
             </tr>
         </tbody>
     </table>`
-
-
-export const baseBodyTemplate = ({user}) =>
-    `<h1>Hello ${user.id}</h1>`

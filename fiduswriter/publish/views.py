@@ -207,19 +207,20 @@ def publish_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    publication = models.Publication.objects.filter(
-        document_id=document_id
-    ).first()
-    if not publication:
-        return HttpResponse("Not found", status=404)
+    publication, created = models.Publication.objects.get_or_create(
+        document_id=document_id, defaults={"submitter_id": request.user.id}
+    )
+    publication.title = request.POST.get("title")
     # Delete all existing assets
     models.PublicationAsset.objects.filter(publication=publication).delete()
     html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
-    doc_html = str(html_zip.open("document.html").read())
+    doc_html = html_zip.open("document.html").read().decode("utf-8")
+    print(doc_html)
     body_html = doc_html[
         doc_html.find('<body class="article">')
         + 22 : doc_html.rfind("</body>")
     ]
+    print(body_html)
     publication.html_src = body_html
     publication.status = "published"
     message = {
@@ -255,3 +256,22 @@ def publish_doc(request):
     response["status"] = publication.status
     status = 200
     return JsonResponse(response, status=status)
+
+
+def list_publications(request):
+    publications = models.Publication.objects.filter(status="published")
+    response = {}
+    response["publications"] = [
+        {"title": pub.title, "content": pub.html_output, "id": pub.id}
+        for pub in publications
+    ]
+    return JsonResponse(response, status=200)
+
+
+def get_publication(request, id):
+    publication = models.Publication.objects.filter(id=id).first()
+    response = {}
+    if publication:
+        response["title"] = publication.title
+        response["content"] = publication.html_output
+    return JsonResponse(response, status=200)
