@@ -17,6 +17,8 @@ class Publication(models.Model):
         Document, on_delete=models.deletion.CASCADE
     )
     title = models.CharField(max_length=255, default="", blank=True)
+    added = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     submitter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.deletion.CASCADE,
@@ -25,6 +27,8 @@ class Publication(models.Model):
         choices=STATUS_CHOICES, max_length=11, default="unsubmitted"
     )
     messages = models.JSONField(default=list)
+    authors = models.JSONField(default=list)
+    keywords = models.JSONField(default=list)
 
     html_src = models.TextField(
         default=""

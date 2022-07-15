@@ -16,10 +16,86 @@ body.cms h1 {
 
 body.cms h1,
 body.cms h2,
-body.cms h2,
-body.cms h2,
-body.cms h2,
-body.cms h2,
+body.cms h3,
+body.cms h4,
+body.cms h5,
+body.cms h6,
 body.cms p {
     padding-top: 10px;
+}
+
+body.cms div.articles {
+    width: 1069px;
+    height: 994px;
+    background-color: white;
+}
+
+body.cms div.articles a.article {
+    width: 343px;
+    height: 294px;
+    background-color: #f2f2f2;
+    margin-right: 20px;
+    margin-bottom: 56px;
+    display: inline-block;
+    border-radius: 12px;
+    float: left;
+    padding: 24px;
+    color: black;
+    position: relative;
+}
+
+body.cms div.keywords div.keyword {
+    display: inline-block;
+    height: 25px;
+    border-radius: 20px;
+    background-color: #a4fce2;
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    text-transform: uppercase;
+    color: #1f1e1f;
+    font-size: 12px;
+    padding: 10px 10px 0 10px;
+    margin-right: 10px;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+body.cms div.articles a.article h1.article-title {
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+body.cms div.articles a.article h3.article-updated {
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+
+body.cms div.articles a.article div.authors {
+    position: absolute;
+    bottom: 24px;
+}
+
+body.cms div.articles a.article div.authors div.author {
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 36px;
+}
+
+body.cms div.articles a.article div.authors::before {
+    content: '●';
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    font-size: 66px;
+    color: #929092;
+    position: absolute;
+    top: -26px;
+    left: -10px;
+}
+
+body.cms div.articles a.article div.authors:empty {
+    display: none;
 }

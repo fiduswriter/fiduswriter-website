@@ -168,7 +168,9 @@ export class EditorPublish {
 
 
     publish(message) {
+
         const publisher = new PublishDoc(
+            this.editor.user,
             message,
             this.editor.schema,
             this.editor.app.csl,

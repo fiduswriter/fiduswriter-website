@@ -59,7 +59,7 @@ def submit_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user, right="write"
+            document=document, user=request.user, rights="write"
         ).first()
     ):
         # Access forbidden
@@ -202,7 +202,7 @@ def publish_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user, right="write"
+            document=document, user=request.user, rights="write"
         ).first()
     ):
         # Access forbidden
@@ -211,16 +211,16 @@ def publish_doc(request):
         document_id=document_id, defaults={"submitter_id": request.user.id}
     )
     publication.title = request.POST.get("title")
+    publication.authors = request.POST.getlist("authors[]")
+    publication.keywords = request.POST.getlist("keywords[]")
     # Delete all existing assets
     models.PublicationAsset.objects.filter(publication=publication).delete()
     html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
     doc_html = html_zip.open("document.html").read().decode("utf-8")
-    print(doc_html)
     body_html = doc_html[
         doc_html.find('<body class="article">')
         + 22 : doc_html.rfind("</body>")
     ]
-    print(body_html)
     publication.html_src = body_html
     publication.status = "published"
     message = {
@@ -262,7 +262,15 @@ def list_publications(request):
     publications = models.Publication.objects.filter(status="published")
     response = {}
     response["publications"] = [
-        {"title": pub.title, "content": pub.html_output, "id": pub.id}
+        {
+            "title": pub.title,
+            "keywords": pub.keywords,
+            "authors": pub.authors,
+            "id": pub.id,
+            "doc_id": pub.document_id,
+            "added": pub.added,
+            "updated": pub.updated,
+        }
         for pub in publications
     ]
     return JsonResponse(response, status=200)
@@ -274,4 +282,18 @@ def get_publication(request, id):
     if publication:
         response["title"] = publication.title
         response["content"] = publication.html_output
+
+        document = publication.document
+        if (
+            document.owner == request.user
+            or AccessRight.objects.filter(
+                document=document, user=request.user
+            ).first()
+        ):
+            # Has access right
+            response["can_edit"] = True
+        else:
+            response["can_edit"] = False
+        response["doc_id"] = publication.document_id
+
     return JsonResponse(response, status=200)
