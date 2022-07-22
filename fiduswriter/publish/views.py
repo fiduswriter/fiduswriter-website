@@ -259,7 +259,9 @@ def publish_doc(request):
 
 
 def list_publications(request):
-    publications = models.Publication.objects.filter(status="published")
+    publications = models.Publication.objects.filter(
+        status="published"
+    ).order_by("-added")
     response = {}
     response["publications"] = [
         {
@@ -284,7 +286,7 @@ def get_publication(request, id):
         response["content"] = publication.html_output
 
         document = publication.document
-        if (
+        if not request.user.is_anonymous and (
             document.owner == request.user
             or AccessRight.objects.filter(
                 document=document, user=request.user
