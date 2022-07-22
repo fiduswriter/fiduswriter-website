@@ -1,7 +1,9 @@
 import {addAlert, postJson, Dialog} from "../common"
+import {READ_ONLY_ROLES, COMMENT_ONLY_ROLES} from "../editor"
+
 import {submitDialogTemplate} from "./templates"
 import {PublishDoc} from "./publish_doc"
-import {READ_ONLY_ROLES, COMMENT_ONLY_ROLES} from "../editor"
+import {getTextContent} from "./tools"
 
 // Adds functions for Publishing to the editor
 export class EditorPublish {
@@ -168,14 +170,52 @@ export class EditorPublish {
 
 
     publish(message) {
+        const doc = this.editor.getDoc({changes: 'acceptAllNoInsertions'})
+        const article = doc.content
+        const authors = article.content.filter(
+            part => part.attrs.metadata === 'authors' && !part.attrs.hidden
+        ).map(
+            authorPart => authorPart.content ?
+                authorPart.content.filter(
+                    author => !author.marks || !author.marks.find(mark => mark.type === 'deletion')
+                ).map(author => `${author.attrs.firstname} ${author.attrs.lastname}`) :
+                []
+        ).flat()
+        if (!authors.length) {
+            authors.push(this.user.name)
+        }
+
+        const keywords = article.content.filter(
+            part => part.attrs.metadata === 'keywords' && !part.attrs.hidden
+        ).map(
+            keywordPart => keywordPart.content ?
+                keywordPart.content.filter(
+                    keyword => !keyword.marks || !keyword.marks.find(mark => mark.type === 'deletion')
+                ).map(keyword => keyword.attrs.tag) :
+                []
+        ).flat()
+
+        let abstract = article.content.filter(
+            part => part.attrs.metadata === 'abstract' && !part.attrs.hidden
+        ).map(part => getTextContent(part)).join('').replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
+
+        if (!abstract.length) {
+            // There was no usable abstract text included. Use instead 500 chars
+            // of other content, except for the title.
+            abstract = article.content.slice(1).map(part => getTextContent(part)).join('').replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
+            abstract = abstract.slice(0, 500)
+        }
 
         const publisher = new PublishDoc(
             this.editor.user,
             message,
+            authors,
+            keywords,
+            abstract,
             this.editor.schema,
             this.editor.app.csl,
             this.editor.mod.documentTemplate.documentStyles,
-            this.editor.getDoc({changes: 'acceptAllNoInsertions'}),
+            doc,
             this.editor.mod.db.bibDB,
             this.editor.mod.db.imageDB,
             this.editor.docInfo.updated

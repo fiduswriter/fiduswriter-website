@@ -25,10 +25,10 @@ body.cms h1 {
 }
 
 body.cms div.headers h1.site-name {
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    text-transform: uppercase;
-    font-size: 80px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 65px;
     font-weight: 650;
+    text-align: center;
 }
 
 body.cms div.content {
@@ -37,22 +37,20 @@ body.cms div.content {
 
 
 body.cms div.articles {
-    width: 1069px;
-    height: 994px;
+    width: 80vw;
     background-color: white;
     display: inline-block;
 }
 
 body.cms div.filters {
-    width: 343px;
+    width: 15vw;
     background-color: white;
     display: inline-block;
     vertical-align: top;
     color: #1f1e1f;
-    text-transform: uppercase;
     font-size: 16px;
     margin-top: 31px;
-    margin-right: 52px;
+    margin-right: 4vh;
 }
 
 body.cms div.filters div.filter {
@@ -61,14 +59,14 @@ body.cms div.filters div.filter {
 
 body.cms div.filters div.filter h3.filter-title {
     font-weight: 650;
-    border-bottom: 2px solid #1f1e1f;
+    border-bottom: 2px dotted #1f1e1f;
 }
 
 body.cms div.filters div.filter span.keyword,
 body.cms div.filters div.filter span.author {
     display: block;
     padding: 4px 0;
-    border-bottom: 1px solid #1f1e1f;
+    border-bottom: 1px solid #cecece;
     cursor: pointer;
 }
 
@@ -81,26 +79,23 @@ body.cms div.filters div.filter span.author.selected {
 
 
 body.cms div.articles a.article {
-    width: 343px;
-    height: 294px;
-    background-color: #f2f2f2;
-    margin-right: 20px;
-    margin-bottom: 56px;
-    display: inline-block;
-    border-radius: 12px;
-    float: left;
-    padding: 24px;
     color: black;
-    position: relative;
+    border-bottom: 1px dotted #cecece;
+    padding: 10px;
+    display: block;
 }
+
+body.cms div.articles a.article:hover {
+    background-color: #cecece;
+}
+
 
 body.cms div.keywords div.keyword {
     display: inline-block;
     height: 25px;
-    border-radius: 20px;
-    background-color: #a4fce2;
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    text-transform: uppercase;
+    border-radius: 4px;
+    background-color: #84b4a7;
+    font-family: 'Roboto', sans-serif;
     color: #1f1e1f;
     font-size: 12px;
     padding: 10px 10px 0 10px;
@@ -110,42 +105,28 @@ body.cms div.keywords div.keyword {
 }
 
 body.cms div.articles a.article h1.article-title {
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
     font-size: 18px;
     font-weight: bold;
-    margin-top: 24px;
 }
 
-body.cms div.articles a.article h3.article-updated {
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    font-size: 14px;
-    margin-top: 20px;
-}
-
-
+body.cms div.articles a.article h3.article-updated,
 body.cms div.articles a.article div.authors {
-    position: absolute;
-    bottom: 24px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-style: italic;
+    display: inline-block;
 }
 
 body.cms div.articles a.article div.authors div.author {
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    padding-left: 36px;
+    display: inline-block;
 }
 
-body.cms div.articles a.article div.authors::before {
-    content: '●';
-    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
-    font-size: 66px;
-    color: #929092;
-    position: absolute;
-    top: -26px;
-    left: -10px;
+body.cms div.articles a.article div.authors div.author + div.author::before {
+    content: ', ';
 }
 
-body.cms div.articles a.article div.authors:empty {
-    display: none;
+
+body.cms div.abstract {
+    font-size: 13px;
 }

@@ -212,6 +212,7 @@ def publish_doc(request):
         document_id=document_id, defaults={"submitter_id": request.user.id}
     )
     publication.title = request.POST.get("title")
+    publication.abstract = request.POST.get("abstract")
     publication.authors = request.POST.getlist("authors[]")
     publication.keywords = request.POST.getlist("keywords[]")
     # Delete all existing assets
@@ -267,6 +268,7 @@ def list_publications(request):
     response["publications"] = [
         {
             "title": pub.title,
+            "abstract": pub.abstract,
             "keywords": pub.keywords,
             "authors": pub.authors,
             "id": pub.id,

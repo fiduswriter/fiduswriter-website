@@ -1,11 +1,12 @@
 import {escapeText} from "../../common"
 
-const publicationOverviewTemplate = ({title, keywords, authors, updated, _added, id}) =>
+const publicationOverviewTemplate = ({title, keywords, authors, updated, _added, abstract, id}) =>
     `<a class="article"  href="/article/${id}/">
         <div class="keywords">${keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join('')}</div>
         <h1 class="article-title">${title}</h1>
         <h3 class="article-updated">${updated.slice(0, 10)}</h3>
         <div class="authors">${authors.map(author => `<div class="author">${escapeText(author)}</div>`).join('')}</div>
+        <div class="abstract">${abstract.slice(0, 250).split('\n').map(part => `<p>${escapeText(part)}</p>`).join('')}</div>
     </a>`
 
 export const articleBodyTemplate = ({_user, publication}) =>

@@ -29,6 +29,7 @@ class Publication(models.Model):
     messages = models.JSONField(default=list)
     authors = models.JSONField(default=list)
     keywords = models.JSONField(default=list)
+    abstract = models.TextField(default="")
 
     html_src = models.TextField(
         default=""
