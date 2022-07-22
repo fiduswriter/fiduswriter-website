@@ -6,6 +6,7 @@ from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.shortcuts import get_current_site
 
 from document.models import Document, AccessRight
 
@@ -275,6 +276,7 @@ def list_publications(request):
         }
         for pub in publications
     ]
+    response["site_name"] = get_current_site(request).name
     return JsonResponse(response, status=200)
 
 

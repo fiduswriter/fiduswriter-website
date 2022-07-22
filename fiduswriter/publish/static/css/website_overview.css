@@ -10,10 +10,6 @@ body.cms div.article-title {
     font-size: 25pt;
 }
 
-body.cms h1 {
-    font-size: 20pt;
-}
-
 body.cms h1,
 body.cms h2,
 body.cms h3,
@@ -24,11 +20,65 @@ body.cms p {
     padding-top: 10px;
 }
 
+body.cms h1 {
+    font-size: 20pt;
+}
+
+body.cms div.headers h1.site-name {
+    font-family: 'Neue Haas Grotesk Display Pro', sans-serif;
+    text-transform: uppercase;
+    font-size: 80px;
+    font-weight: 650;
+}
+
+body.cms div.content {
+    margin-top: 48px;
+}
+
+
 body.cms div.articles {
     width: 1069px;
     height: 994px;
     background-color: white;
+    display: inline-block;
 }
+
+body.cms div.filters {
+    width: 343px;
+    background-color: white;
+    display: inline-block;
+    vertical-align: top;
+    color: #1f1e1f;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 31px;
+    margin-right: 52px;
+}
+
+body.cms div.filters div.filter {
+    margin-bottom: 16px;
+}
+
+body.cms div.filters div.filter h3.filter-title {
+    font-weight: 650;
+    border-bottom: 2px solid #1f1e1f;
+}
+
+body.cms div.filters div.filter span.keyword,
+body.cms div.filters div.filter span.author {
+    display: block;
+    padding: 4px 0;
+    border-bottom: 1px solid #1f1e1f;
+    cursor: pointer;
+}
+
+body.cms div.filters div.filter span.keyword.selected,
+body.cms div.filters div.filter span.author.selected {
+    background-color: #1f1e1f;
+    color: white;
+}
+
+
 
 body.cms div.articles a.article {
     width: 343px;
