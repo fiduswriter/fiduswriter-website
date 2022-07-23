@@ -2,8 +2,8 @@
 *~
 dist/
 build/
-fiduswriter_book.egg-info/
-fiduswriter_books.egg-info/
+fiduswriter_publish.egg-info/
+fiduswriter_publish.egg-info/
 __pycache__/
 venv/
 .envrc
