@@ -1,5 +1,4 @@
 export function getTextContent(node) {
-    console.log({node})
     let text = ''
     if (node.attrs && node.attrs.hidden) {
         return text

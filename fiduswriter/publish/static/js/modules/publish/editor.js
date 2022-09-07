@@ -5,16 +5,20 @@ import {submitDialogTemplate} from "./templates"
 import {PublishDoc} from "./publish_doc"
 import {getTextContent} from "./tools"
 
+import * as plugins from "../../plugins/publish"
+
 // Adds functions for Publishing to the editor
 export class EditorPublish {
     constructor(editor) {
         this.editor = editor
+        this.publishUrl = '/api/publish/publish_doc/'
         this.submission = {
             status: 'unknown'
         }
     }
 
     init() {
+        this.activateFidusPlugins()
         const docData = {
             doc_id: this.editor.docInfo.id
         }
@@ -35,6 +39,18 @@ export class EditorPublish {
 
     }
 
+    activateFidusPlugins() {
+        // Add plugins.
+        this.plugins = {}
+
+        Object.keys(plugins).forEach(plugin => {
+            if (typeof plugins[plugin] === 'function') {
+                this.plugins[plugin] = new plugins[plugin](this)
+                this.plugins[plugin].init()
+            }
+        })
+    }
+
     setupUI() {
         const websiteMenu = {
             title: gettext('Publish'),
@@ -44,7 +60,7 @@ export class EditorPublish {
             order: 10,
             disabled: editor => editor.docInfo.access_rights !== 'write',
             content: [{
-                title: gettext('Submit'),
+                title: this.submission.user_role === 'editor' ? gettext('Publish') : gettext('Submit'),
                 type: 'action',
                 tooltip: this.submission.user_role === 'editor' ? gettext('Publish, reject or request changes') : gettext('Submit for publishing to website'),
                 action: () => {
@@ -207,6 +223,7 @@ export class EditorPublish {
         }
 
         const publisher = new PublishDoc(
+            this.publishUrl,
             this.editor.user,
             message,
             authors,

@@ -4,8 +4,9 @@ import {HTMLExporter} from "../exporter/html"
 
 // Send the HTML version of a document to the server for publication as a webpage.
 export class PublishDoc extends HTMLExporter {
-    constructor(user, message, authors, keywords, abstract, ...exporterArgs) {
+    constructor(url, user, message, authors, keywords, abstract, ...exporterArgs) {
         const returnValue = super(...exporterArgs)
+        this.url = url
         this.user = user
         this.message = message
         this.authors = authors
@@ -17,7 +18,7 @@ export class PublishDoc extends HTMLExporter {
     download(blob) {
 
         return postJson(
-            '/api/publish/publish_doc/',
+            this.url,
             {
                 doc_id: this.doc.id,
                 title: this.docTitle,
