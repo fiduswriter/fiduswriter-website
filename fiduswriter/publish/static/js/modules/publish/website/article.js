@@ -27,15 +27,15 @@ export class WebsiteArticle {
     }
 
     render() {
-        this.dom = document.createElement('body')
-        this.dom.classList.add('cms')
+        this.dom = document.createElement("body")
+        this.dom.classList.add("cms")
         this.dom.innerHTML = articleBodyTemplate({
             user: this.user,
             publication: this.publication
         })
         ensureCSS([
-            'document.css',
-            'website_overview.css'
+            "document.css",
+            "website_overview.css"
         ])
         document.body = this.dom
         setDocTitle(this.publication.title, this.app)

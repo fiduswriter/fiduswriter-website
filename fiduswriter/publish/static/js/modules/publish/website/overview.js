@@ -29,7 +29,7 @@ export class WebsiteOverview {
     }
 
     getPublications() {
-        return getJson('/api/publish/list_publications/').then(
+        return getJson("/api/publish/list_publications/").then(
             json => {
                 this.siteName = json.site_name
                 let keywords = []
@@ -47,11 +47,11 @@ export class WebsiteOverview {
     }
 
     render() {
-        this.dom = document.createElement('body')
-        this.dom.classList.add('cms')
+        this.dom = document.createElement("body")
+        this.dom.classList.add("cms")
         this.renderBody()
         ensureCSS([
-            'website_overview.css'
+            "website_overview.css"
         ])
         document.body = this.dom
         setDocTitle(websiteOverviewTitle, this.app)
@@ -69,22 +69,22 @@ export class WebsiteOverview {
     }
 
     bind() {
-        this.dom.addEventListener('click', event => {
-            const authorEl = event.target.closest('span.author')
-            const keywordEl = event.target.closest('span.keyword')
+        this.dom.addEventListener("click", event => {
+            const authorEl = event.target.closest("span.author")
+            const keywordEl = event.target.closest("span.keyword")
             if (!authorEl && !keywordEl) {
                 return
             }
             event.preventDefault()
             if (authorEl) {
-                if (authorEl.classList.contains('selected')) {
+                if (authorEl.classList.contains("selected")) {
                     delete this.filters.author
                 } else {
                     const index = parseInt(authorEl.dataset.index)
                     this.filters.author = this.authors[index]
                 }
             } else {
-                if (keywordEl.classList.contains('selected')) {
+                if (keywordEl.classList.contains("selected")) {
                     delete this.filters.keyword
                 } else {
                     const index = parseInt(keywordEl.dataset.index)

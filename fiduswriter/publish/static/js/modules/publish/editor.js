@@ -11,9 +11,9 @@ import * as plugins from "../../plugins/publish"
 export class EditorPublish {
     constructor(editor) {
         this.editor = editor
-        this.publishUrl = '/api/publish/publish_doc/'
+        this.publishUrl = "/api/publish/publish_doc/"
         this.submission = {
-            status: 'unknown'
+            status: "unknown"
         }
     }
 
@@ -23,16 +23,16 @@ export class EditorPublish {
             doc_id: this.editor.docInfo.id
         }
         postJson(
-            '/api/publish/get_doc_info/',
+            "/api/publish/get_doc_info/",
             docData
         ).then(
             ({json}) => {
-                this.submission = json['submission']
+                this.submission = json["submission"]
                 this.setupUI()
             }
         ).catch(
             error => {
-                addAlert('error', gettext('Could not obtain submission info.'))
+                addAlert("error", gettext("Could not obtain submission info."))
                 throw (error)
             }
         )
@@ -44,7 +44,7 @@ export class EditorPublish {
         this.plugins = {}
 
         Object.keys(plugins).forEach(plugin => {
-            if (typeof plugins[plugin] === 'function') {
+            if (typeof plugins[plugin] === "function") {
                 this.plugins[plugin] = new plugins[plugin](this)
                 this.plugins[plugin].init()
             }
@@ -53,18 +53,18 @@ export class EditorPublish {
 
     setupUI() {
         const websiteMenu = {
-            title: gettext('Publish'),
-            id: 'publish',
-            type: 'menu',
-            tooltip: gettext('Publish to website'),
+            title: gettext("Publish"),
+            id: "publish",
+            type: "menu",
+            tooltip: gettext("Publish to website"),
             order: 10,
-            disabled: editor => editor.docInfo.access_rights !== 'write',
+            disabled: editor => editor.docInfo.access_rights !== "write",
             content: [{
-                title: this.submission.user_role === 'editor' ? gettext('Publish') : gettext('Submit'),
-                type: 'action',
-                tooltip: this.submission.user_role === 'editor' ? gettext('Publish, reject or request changes') : gettext('Submit for publishing to website'),
+                title: this.submission.user_role === "editor" ? gettext("Publish") : gettext("Submit"),
+                type: "action",
+                tooltip: this.submission.user_role === "editor" ? gettext("Publish, reject or request changes") : gettext("Submit for publishing to website"),
                 action: () => {
-                    if (this.submission.user_role === 'editor') {
+                    if (this.submission.user_role === "editor") {
                         this.publishDialog()
                     } else {
                         this.submitDialog()
@@ -100,14 +100,14 @@ export class EditorPublish {
                 }
             },
             {
-                type: 'cancel'
+                type: "cancel"
             }
         ]
 
         const dialog = new Dialog({
             width: 750,
             buttons,
-            title: gettext('Submit document to be published on website'),
+            title: gettext("Submit document to be published on website"),
             body: submitDialogTemplate({
                 messages: this.submission.messages,
                 status: this.submission.status
@@ -122,13 +122,13 @@ export class EditorPublish {
             message
         }
         return postJson(
-            '/api/publish/submit_doc/',
+            "/api/publish/submit_doc/",
             docData
         ).then(
             ({json}) => {
                 this.submission.status = json.status
                 this.submission.messages.push(json.message)
-                addAlert('info', gettext('Submitted document for publication.'))
+                addAlert("info", gettext("Submitted document for publication."))
             }
         )
     }
@@ -137,43 +137,43 @@ export class EditorPublish {
     publishDialog() {
         const buttons = [
                 {
-                    text: gettext('Publish'),
+                    text: gettext("Publish"),
                     click: () => {
                         const message = document.getElementById("submission-message").value.trim()
                         this.publish(message).then(
                             () => dialog.close()
                         )
                     },
-                    classes: 'fw-dark'
+                    classes: "fw-dark"
                 },
                 {
-                    text: gettext('Ask for changes'),
+                    text: gettext("Ask for changes"),
                     click: () => {
                         const message = document.getElementById("submission-message").value.trim()
                         this.review(message).then(
                             () => dialog.close()
                         )
                     },
-                    classes: 'fw-dark'
+                    classes: "fw-dark"
                 },
                 {
-                    text: gettext('Reject'),
+                    text: gettext("Reject"),
                     click: () => {
                         const message = document.getElementById("submission-message").value.trim()
                         this.reject(message).then(
                             () => dialog.close()
                         )
                     },
-                    classes: 'fw-dark'
+                    classes: "fw-dark"
                 },
                 {
-                    type: 'cancel'
+                    type: "cancel"
                 }
             ],
             dialog = new Dialog({
                 width: 750,
                 id: "review-message",
-                title: gettext('Publish, reject or ask for changes'),
+                title: gettext("Publish, reject or ask for changes"),
                 body: submitDialogTemplate({
                     messages: this.submission.messages,
                     status: this.submission.status
@@ -186,14 +186,14 @@ export class EditorPublish {
 
 
     publish(message) {
-        const doc = this.editor.getDoc({changes: 'acceptAllNoInsertions'})
+        const doc = this.editor.getDoc({changes: "acceptAllNoInsertions"})
         const article = doc.content
         const authors = article.content.filter(
-            part => part.attrs.metadata === 'authors' && !part.attrs.hidden
+            part => part.attrs.metadata === "authors" && !part.attrs.hidden
         ).map(
             authorPart => authorPart.content ?
                 authorPart.content.filter(
-                    author => !author.marks || !author.marks.find(mark => mark.type === 'deletion')
+                    author => !author.marks || !author.marks.find(mark => mark.type === "deletion")
                 ).map(author => `${author.attrs.firstname} ${author.attrs.lastname}`) :
                 []
         ).flat()
@@ -202,23 +202,23 @@ export class EditorPublish {
         }
 
         const keywords = article.content.filter(
-            part => part.attrs.metadata === 'keywords' && !part.attrs.hidden
+            part => part.attrs.metadata === "keywords" && !part.attrs.hidden
         ).map(
             keywordPart => keywordPart.content ?
                 keywordPart.content.filter(
-                    keyword => !keyword.marks || !keyword.marks.find(mark => mark.type === 'deletion')
+                    keyword => !keyword.marks || !keyword.marks.find(mark => mark.type === "deletion")
                 ).map(keyword => keyword.attrs.tag) :
                 []
         ).flat()
 
         let abstract = article.content.filter(
-            part => part.attrs.metadata === 'abstract' && !part.attrs.hidden
-        ).map(part => getTextContent(part)).join('').replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
+            part => part.attrs.metadata === "abstract" && !part.attrs.hidden
+        ).map(part => getTextContent(part)).join("").replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
 
         if (!abstract.length) {
             // There was no usable abstract text included. Use instead 500 chars
             // of other content, except for the title.
-            abstract = article.content.slice(1).map(part => getTextContent(part)).join('').replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
+            abstract = article.content.slice(1).map(part => getTextContent(part)).join("").replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
             abstract = abstract.slice(0, 500)
         }
 
@@ -241,7 +241,7 @@ export class EditorPublish {
             ({json}) => {
                 this.submission.status = json.status
                 this.submission.messages.push(json.message)
-                addAlert('info', gettext('Published document.'))
+                addAlert("info", gettext("Published document."))
             }
         )
     }
@@ -249,7 +249,7 @@ export class EditorPublish {
 
     reject(message) {
         return postJson(
-            '/api/publish/reject_doc/',
+            "/api/publish/reject_doc/",
             {
                 doc_id: this.editor.docInfo.id,
                 message
@@ -258,14 +258,14 @@ export class EditorPublish {
             ({json}) => {
                 this.submission.status = json.status
                 this.submission.messages.push(json.message)
-                addAlert('info', gettext('Publication of document has been rejected.'))
+                addAlert("info", gettext("Publication of document has been rejected."))
             }
         )
     }
 
     review(message) {
         return postJson(
-            '/api/publish/review_doc/',
+            "/api/publish/review_doc/",
             {
                 doc_id: this.editor.docInfo.id,
                 message
@@ -273,7 +273,7 @@ export class EditorPublish {
         ).then(
             ({json}) => {
                 this.submission.messages.push(json.message)
-                addAlert('info', gettext('Document has been reviewed. Request for changes has been sent.'))
+                addAlert("info", gettext("Document has been reviewed. Request for changes has been sent."))
             }
         )
     }

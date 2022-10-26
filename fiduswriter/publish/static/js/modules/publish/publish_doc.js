@@ -25,7 +25,7 @@ export class PublishDoc extends HTMLExporter {
                 authors: this.authors,
                 keywords: this.keywords,
                 abstract: this.abstract,
-                'html.zip': {file: blob, filename: 'html.zip'},
+                "html.zip": {file: blob, filename: "html.zip"},
                 message: this.message
             }
         )
