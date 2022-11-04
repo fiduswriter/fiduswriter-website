@@ -34,8 +34,8 @@ export class WebsiteArticle {
             publication: this.publication
         })
         ensureCSS([
-            "document.css",
-            "website_overview.css"
+            staticUrl("css/document.css"),
+            staticUrl("css/website_overview.css")
         ])
         document.body = this.dom
         setDocTitle(this.publication.title, this.app)

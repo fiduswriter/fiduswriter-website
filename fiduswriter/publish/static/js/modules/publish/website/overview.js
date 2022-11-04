@@ -51,7 +51,7 @@ export class WebsiteOverview {
         this.dom.classList.add("cms")
         this.renderBody()
         ensureCSS([
-            "website_overview.css"
+            staticUrl("css/website_overview.css")
         ])
         document.body = this.dom
         setDocTitle(websiteOverviewTitle, this.app)
