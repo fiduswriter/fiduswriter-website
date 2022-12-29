@@ -34,9 +34,7 @@ setup(
     name="fiduswriter-publish",
     version="3.10.0a1",
     packages=find_namespace_packages(),
-    exclude_package_data={
-        "": ["configuration.py", "django-admin.py", "build/*"]
-    },
+    exclude_package_data={"": ["configuration.py", "django-admin.py", "build/*"]},
     include_package_data=True,
     license="AGPL License",
     description=(
