@@ -1,25 +1,22 @@
-FidusWriter-Publish
+FidusWriter-Website
 =================
 
-FidusWriter-Publish is a Fidus Writer plugin to allow for makign documents available
-directly to the general public from within Fidus Writer.
-
-**NOTE: This plugin is alphaware and is not currentlyt ready to be used.**
-
+FidusWriter-Website is a Fidus Writer plugin to allow for making documents available
+directly to the general public from within Fidus Writer on the frontpage of Fidus Writer itself.
 
 Installation
 ------------
 
 1) Install Fidus Writer like this:
 
-    pip install fiduswriter[publish]
+    pip install fiduswriter[website]
 
 2) Add "book" to your INSTALLED_APPS setting in the
    configuration.py file like this::
 
     INSTALLED_APPS += (
         ...
-        'publish',
+        'website',
     )
 
 3) Run ``fiduswriter setup`` to create the needed database tables and to create the needed JavaScript files.
