@@ -1,16 +1,16 @@
-export class AppPublish {
+export class AppWebsite {
     constructor(app) {
         this.app = app
     }
 
     init() {
         this.app.routes[""] = {
-            app: "publish",
+            app: "website",
             requireLogin: false,
             open: () => import(/* webpackPrefetch: true */"./website/overview").then(({WebsiteOverview}) => new WebsiteOverview(this.app.config))
         }
         this.app.routes["article"] = {
-            app: "publish",
+            app: "website",
             requireLogin: false,
             open: pathnameParts => {
                 let id = pathnameParts.pop()

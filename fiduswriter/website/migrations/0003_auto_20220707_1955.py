@@ -2,13 +2,13 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import publish.models
+import website.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("publish", "0002_auto_20220703_1201"),
+        ("website", "0002_auto_20220703_1201"),
     ]
 
     operations = [
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                     "file",
                     models.FileField(
                         help_text="A file references in the HTML of a Publication. The filepath will be replaced with the final url of the file in the style.",
-                        upload_to=publish.models.publication_asset_location,
+                        upload_to=website.models.publication_asset_location,
                     ),
                 ),
                 (
@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
                     "publication",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="publish.publication",
+                        to="website.publication",
                     ),
                 ),
             ],

@@ -31,8 +31,8 @@ with open(os.path.join(os.path.dirname(__file__), "README.rst")) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name="fiduswriter-publish",
-    version="3.10.0a1",
+    name="fiduswriter-website",
+    version="3.11.0a1",
     packages=find_namespace_packages(),
     exclude_package_data={"": ["configuration.py", "django-admin.py", "build/*"]},
     include_package_data=True,
@@ -41,7 +41,7 @@ setup(
         "A Fidus Writer plugin to allow publishing articles publically directly."
     ),
     long_description=README,
-    url="https://www.github.org/fiduswriter/fiduswriter-publish",
+    url="https://www.github.org/fiduswriter/fiduswriter-website",
     author="Johannes Wilm",
     author_email="johannes@fiduswriter.org",
     classifiers=[

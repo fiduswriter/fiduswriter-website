@@ -29,7 +29,7 @@ export class WebsiteOverview {
     }
 
     getPublications() {
-        return getJson("/api/publish/list_publications/").then(
+        return getJson("/api/website/list_publications/").then(
             json => {
                 this.siteName = json.site_name
                 let keywords = []

@@ -21,7 +21,7 @@ export class WebsiteArticle {
     }
 
     getPublication() {
-        return getJson(`/api/publish/get_publication/${this.id}/`).then(
+        return getJson(`/api/website/get_publication/${this.id}/`).then(
             publication => this.publication = publication
         )
     }

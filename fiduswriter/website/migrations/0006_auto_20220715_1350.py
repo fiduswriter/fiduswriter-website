@@ -7,7 +7,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("publish", "0005_auto_20220715_1044"),
+        ("website", "0005_auto_20220715_1044"),
     ]
 
     operations = [

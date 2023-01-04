@@ -5,13 +5,13 @@ import {submitDialogTemplate} from "./templates"
 import {PublishDoc} from "./publish_doc"
 import {getTextContent} from "./tools"
 
-import * as plugins from "../../plugins/publish"
+import * as plugins from "../../plugins/website"
 
 // Adds functions for Publishing to the editor
-export class EditorPublish {
+export class EditorWebsite {
     constructor(editor) {
         this.editor = editor
-        this.publishUrl = "/api/publish/publish_doc/"
+        this.publishUrl = "/api/website/publish_doc/"
         this.submission = {
             status: "unknown"
         }
@@ -23,7 +23,7 @@ export class EditorPublish {
             doc_id: this.editor.docInfo.id
         }
         postJson(
-            "/api/publish/get_doc_info/",
+            "/api/website/get_doc_info/",
             docData
         ).then(
             ({json}) => {
@@ -53,8 +53,8 @@ export class EditorPublish {
 
     setupUI() {
         const websiteMenu = {
-            title: gettext("Publish"),
-            id: "publish",
+            title: gettext("Website"),
+            id: "website",
             type: "menu",
             tooltip: gettext("Publish to website"),
             order: 10,
@@ -122,7 +122,7 @@ export class EditorPublish {
             message
         }
         return postJson(
-            "/api/publish/submit_doc/",
+            "/api/website/submit_doc/",
             docData
         ).then(
             ({json}) => {
@@ -249,7 +249,7 @@ export class EditorPublish {
 
     reject(message) {
         return postJson(
-            "/api/publish/reject_doc/",
+            "/api/website/reject_doc/",
             {
                 doc_id: this.editor.docInfo.id,
                 message
@@ -265,7 +265,7 @@ export class EditorPublish {
 
     review(message) {
         return postJson(
-            "/api/publish/review_doc/",
+            "/api/website/review_doc/",
             {
                 doc_id: this.editor.docInfo.id,
                 message
