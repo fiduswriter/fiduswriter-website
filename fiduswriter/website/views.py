@@ -39,7 +39,9 @@ def get_doc_info(request):
     else:
         response["submission"]["status"] = "unsubmitted"
         response["submission"]["messages"] = []
-    if models.Editor.objects.filter(user_id=request.user.id):
+    if request.user.has_perm(
+        "website.add_publication"
+    ) or models.Editor.objects.filter(user_id=request.user.id):
         user_role = "editor"
     else:
         user_role = "author"
@@ -60,15 +62,44 @@ def submit_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user, rights="write"
+            document=document, user=request.user
         ).first()
     ):
         # Access forbidden
-        return HttpResponse("Missing access rights", status=403)
+        return HttpResponse("Missing document access rights", status=403)
     publication, created = models.Publication.objects.get_or_create(
         document_id=document_id,
         defaults={"submitter": request.user, "status": "submitted"},
     )
+    if (
+        publication.status == "published"
+        and not created
+        and request.user.has_perm("website.change_publication")
+    ):
+        # The user has permission to publish the document immediately.
+        publication.title = request.POST.get("title")
+        publication.abstract = request.POST.get("abstract")
+        publication.authors = request.POST.getlist("authors[]")
+        publication.keywords = request.POST.getlist("keywords[]")
+        # Delete all existing assets
+        models.PublicationAsset.objects.filter(
+            publication=publication
+        ).delete()
+        html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
+        body_html = html_zip.open("document.html").read().decode("utf-8")
+        publication.html_src = body_html
+        publication.status = "published"
+        message = {
+            "type": "publish",
+            "message": request.POST.get("message"),
+            "user": request.user.readable_name,
+            "time": time.time(),
+        }
+        publication.messages.append(message)
+        response["message"] = message
+        publication.save()
+        response["status"] = publication.status
+        return JsonResponse(response, status=status)
     message = {
         "type": "submit",
         "message": request.POST.get("message"),
@@ -115,8 +146,11 @@ def submit_doc(request):
 @require_POST
 def reject_doc(request):
     response = {}
-    editor = models.Editor.objects.filter(user=request.user).first()
-    if not editor:
+    if not (
+        request.user.has_perm("website.add_publication")
+        or request.user.has_perm("website.change_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
@@ -130,12 +164,24 @@ def reject_doc(request):
         ).first()
     ):
         # Access forbidden
-        return HttpResponse("Missing access rights", status=403)
+        return HttpResponse("Missing document access rights", status=403)
     status = 200
-    publication, created = models.Publication.objects.get_or_create(
-        document_id=document_id,
-        defaults={"submitter": request.user, "status": "rejected"},
-    )
+    if (
+        request.user.has_perm("website.add_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
+        publication, created = models.Publication.objects.get_or_create(
+            document_id=document_id,
+            defaults={"submitter": request.user, "status": "rejected"},
+        )
+    else:
+        publication = models.Publication.objects.filter(
+            document_id=document_id
+        ).first()
+        if not publication:
+            # Access forbidden
+            return HttpResponse("Missing document access rights", status=403)
+        created = False
     if not created:
         publication.status = "rejected"
     message = {
@@ -155,8 +201,11 @@ def reject_doc(request):
 @require_POST
 def review_doc(request):
     response = {}
-    editor = models.Editor.objects.filter(user=request.user).first()
-    if not editor:
+    if not (
+        request.user.has_perm("website.add_publication")
+        or request.user.has_perm("website.change_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
@@ -172,10 +221,21 @@ def review_doc(request):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     status = 200
-    publication, _created = models.Publication.objects.get_or_create(
-        document_id=document_id,
-        defaults={"submitter": request.user, "status": "unsubmitted"},
-    )
+    if (
+        request.user.has_perm("website.add_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
+        publication, _created = models.Publication.objects.get_or_create(
+            document_id=document_id,
+            defaults={"submitter": request.user, "status": "unsubmitted"},
+        )
+    else:
+        publication = models.Publication.objects.filter(
+            document_id=document_id,
+        ).first()
+        if not publication:
+            # Access forbidden
+            return HttpResponse("Missing access rights", status=403)
     message = {
         "type": "review",
         "message": request.POST.get("message"),
@@ -192,8 +252,11 @@ def review_doc(request):
 @require_POST
 def publish_doc(request):
     response = {}
-    editor = models.Editor.objects.filter(user=request.user).first()
-    if not editor:
+    if not (
+        request.user.has_perm("website.add_publication")
+        or request.user.has_perm("website.change_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     document_id = int(request.POST.get("doc_id"))
@@ -207,10 +270,21 @@ def publish_doc(request):
         ).first()
     ):
         # Access forbidden
-        return HttpResponse("Missing access rights", status=403)
-    publication, created = models.Publication.objects.get_or_create(
-        document_id=document_id, defaults={"submitter_id": request.user.id}
-    )
+        return HttpResponse("Missing document access rights", status=403)
+    if (
+        request.user.has_perm("website.add_publication")
+        or models.Editor.objects.filter(user=request.user).first()
+    ):
+        publication, created = models.Publication.objects.get_or_create(
+            document_id=document_id, defaults={"submitter_id": request.user.id}
+        )
+    else:
+        publication = models.Publication.objects.filter(
+            document_id=document_id
+        )
+        if not publication:
+            # Access forbidden
+            return HttpResponse("Missing access rights", status=403)
     publication.title = request.POST.get("title")
     publication.abstract = request.POST.get("abstract")
     publication.authors = request.POST.getlist("authors[]")
@@ -218,11 +292,7 @@ def publish_doc(request):
     # Delete all existing assets
     models.PublicationAsset.objects.filter(publication=publication).delete()
     html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
-    doc_html = html_zip.open("document.html").read().decode("utf-8")
-    body_html = doc_html[
-        doc_html.find('<body class="article">')
-        + 22 : doc_html.rfind("</body>")
-    ]
+    body_html = html_zip.open("document.html").read().decode("utf-8")
     publication.html_src = body_html
     publication.status = "published"
     message = {

@@ -25,7 +25,7 @@ body.cms h1 {
 }
 
 body.cms div.headers h1.site-name {
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 65px;
     font-weight: 650;
     text-align: center;
@@ -95,24 +95,24 @@ body.cms div.keywords div.keyword {
     height: 25px;
     border-radius: 4px;
     background-color: #84b4a7;
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     color: #1f1e1f;
     font-size: 12px;
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 0;
     margin-right: 10px;
     margin-top: 4px;
     font-weight: bold;
 }
 
 body.cms div.articles a.article h1.article-title {
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 18px;
     font-weight: bold;
 }
 
 body.cms div.articles a.article h3.article-updated,
 body.cms div.articles a.article div.authors {
-    font-family: 'Roboto', sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 14px;
     font-style: italic;
     display: inline-block;

@@ -59,3 +59,15 @@ export const submitDialogTemplate = ({messages, status}) =>
             </tr>
         </tbody>
     </table>`
+
+
+export const htmlExportTemplate = ({body, back, settings}) =>
+    `${body}${back}${
+        settings.copyright && settings.copyright.holder ?
+            `<div>© ${settings.copyright.year ? settings.copyright.year : new Date().getFullYear()} ${settings.copyright.holder}</div>` :
+            ""
+    }${
+        settings.copyright && settings.copyright.licenses.length ?
+            `<div>${settings.copyright.licenses.map(license => `<a rel="license" href="${escapeText(license.url)}">${escapeText(license.title)}${license.start ? ` (${license.start})` : ""}</a>`).join("</div><div>")}</div>` :
+            ""
+    }`

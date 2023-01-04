@@ -1,6 +1,7 @@
 import {postJson} from "../common"
+import {HTMLExporter} from "../exporter/html2"
 
-import {HTMLExporter} from "../exporter/html"
+import {htmlExportTemplate} from "./templates"
 
 // Send the HTML version of a document to the server for publication as a webpage.
 export class PublishDoc extends HTMLExporter {
@@ -12,11 +13,10 @@ export class PublishDoc extends HTMLExporter {
         this.authors = authors
         this.keywords = keywords
         this.abstract = abstract
+        this.htmlExportTemplate = htmlExportTemplate
         return returnValue
-
     }
     download(blob) {
-
         return postJson(
             this.url,
             {

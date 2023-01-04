@@ -1,1 +1,1 @@
-export {AppPWebsite} from "../../modules/website"
+export {AppWebsite} from "../../modules/website"

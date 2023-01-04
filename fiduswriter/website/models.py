@@ -70,6 +70,7 @@ class Editor(models.Model):
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
+        related_name="website_editor",
     )
 
     def __str__(self):

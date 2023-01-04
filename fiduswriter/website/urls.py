@@ -1,19 +1,21 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 urlpatterns = [
-    url("^get_doc_info/$", views.get_doc_info, name="website_get_doc_info"),
-    url("^submit_doc/$", views.submit_doc, name="website_submit_doc"),
-    url("^reject_doc/$", views.reject_doc, name="website_reject_doc"),
-    url("^review_doc/$", views.review_doc, name="website_review_doc"),
-    url("^publish_doc/$", views.publish_doc, name="website_publish_doc"),
-    url(
+    re_path(
+        "^get_doc_info/$", views.get_doc_info, name="website_get_doc_info"
+    ),
+    re_path("^submit_doc/$", views.submit_doc, name="website_submit_doc"),
+    re_path("^reject_doc/$", views.reject_doc, name="website_reject_doc"),
+    re_path("^review_doc/$", views.review_doc, name="website_review_doc"),
+    re_path("^publish_doc/$", views.publish_doc, name="website_publish_doc"),
+    re_path(
         "^list_publications/$",
         views.list_publications,
         name="website_list_publications",
     ),
-    url(
+    re_path(
         "^get_publication/(?P<id>[0-9]+)/$",
         views.get_publication,
         name="website_get_publication",

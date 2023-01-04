@@ -198,7 +198,7 @@ export class EditorWebsite {
                 []
         ).flat()
         if (!authors.length) {
-            authors.push(this.user.name)
+            authors.push(this.editor.user.name)
         }
 
         const keywords = article.content.filter(
@@ -229,13 +229,12 @@ export class EditorWebsite {
             authors,
             keywords,
             abstract,
-            this.editor.schema,
-            this.editor.app.csl,
-            this.editor.mod.documentTemplate.documentStyles,
             doc,
             this.editor.mod.db.bibDB,
             this.editor.mod.db.imageDB,
-            this.editor.docInfo.updated
+            this.editor.app.csl,
+            this.editor.docInfo.updated,
+            this.editor.mod.documentTemplate.documentStyles,
         )
         return publisher.init().then(
             ({json}) => {
