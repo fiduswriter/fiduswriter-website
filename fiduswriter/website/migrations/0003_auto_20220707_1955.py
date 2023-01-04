@@ -44,7 +44,8 @@ class Migration(migrations.Migration):
                 (
                     "filepath",
                     models.CharField(
-                        help_text="The original filepath.", max_length=255
+                        help_text="The original filepath.",
+                        max_length=255,
                     ),
                 ),
                 (

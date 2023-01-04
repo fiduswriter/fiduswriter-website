@@ -1,6 +1,5 @@
-from django.db import models
 from django.conf import settings
-
+from django.db import models
 from document.models import Document
 
 
@@ -14,7 +13,8 @@ STATUS_CHOICES = (
 
 class Publication(models.Model):
     document = models.OneToOneField(
-        Document, on_delete=models.deletion.CASCADE
+        Document,
+        on_delete=models.deletion.CASCADE,
     )
     title = models.CharField(max_length=255, default="", blank=True)
     added = models.DateTimeField(auto_now_add=True)
@@ -24,7 +24,9 @@ class Publication(models.Model):
         on_delete=models.deletion.CASCADE,
     )
     status = models.CharField(
-        choices=STATUS_CHOICES, max_length=11, default="unsubmitted"
+        choices=STATUS_CHOICES,
+        max_length=11,
+        default="unsubmitted",
     )
     messages = models.JSONField(default=list)
     authors = models.JSONField(default=list)
@@ -32,10 +34,10 @@ class Publication(models.Model):
     abstract = models.TextField(default="")
 
     html_src = models.TextField(
-        default=""
+        default="",
     )  # The original HTML as exported from the frontend
     html_output = models.TextField(
-        default=""
+        default="",
     )  # The HTML with asset locations replaced.
 
     def __str__(self):
@@ -50,7 +52,8 @@ def publication_asset_location(instance, filename):
 
 class PublicationAsset(models.Model):
     publication = models.ForeignKey(
-        Publication, on_delete=models.deletion.CASCADE
+        Publication,
+        on_delete=models.deletion.CASCADE,
     )
     file = models.FileField(
         upload_to=publication_asset_location,
@@ -60,7 +63,8 @@ class PublicationAsset(models.Model):
         ),
     )
     filepath = models.CharField(
-        max_length=255, help_text="The original filepath."
+        max_length=255,
+        help_text="The original filepath.",
     )
 
 

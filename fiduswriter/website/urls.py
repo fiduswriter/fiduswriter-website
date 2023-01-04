@@ -4,7 +4,9 @@ from . import views
 
 urlpatterns = [
     re_path(
-        "^get_doc_info/$", views.get_doc_info, name="website_get_doc_info"
+        "^get_doc_info/$",
+        views.get_doc_info,
+        name="website_get_doc_info",
     ),
     re_path("^submit_doc/$", views.submit_doc, name="website_submit_doc"),
     re_path("^reject_doc/$", views.reject_doc, name="website_reject_doc"),

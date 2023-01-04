@@ -1,0 +1,6 @@
+.transpile-cache/
+venv/
+static-transpile/
+static-libs/
+static-collected/
+testing/

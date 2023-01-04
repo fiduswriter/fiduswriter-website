@@ -1,16 +1,19 @@
 import time
 import zipfile
 
-from django.http import HttpResponse, JsonResponse, HttpRequest
-from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.files.base import ContentFile
+from django.http import HttpRequest
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from document.models import AccessRight
+from document.models import Document
 
-from document.models import Document, AccessRight
-
-from . import models, emails
+from . import emails
+from . import models
 
 
 @login_required
@@ -24,12 +27,13 @@ def get_doc_info(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user
+            document=document,
+            user=request.user,
         ).first()
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    response["submission"] = dict()
+    response["submission"] = {}
     publication = models.Publication.objects.filter(
         document_id=document_id,
     ).first()
@@ -40,8 +44,10 @@ def get_doc_info(request):
         response["submission"]["status"] = "unsubmitted"
         response["submission"]["messages"] = []
     if request.user.has_perm(
-        "website.add_publication"
-    ) or models.Editor.objects.filter(user_id=request.user.id):
+        "website.add_publication",
+    ) or models.Editor.objects.filter(
+        user_id=request.user.id,
+    ):
         user_role = "editor"
     else:
         user_role = "author"
@@ -62,7 +68,8 @@ def submit_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user
+            document=document,
+            user=request.user,
         ).first()
     ):
         # Access forbidden
@@ -83,7 +90,7 @@ def submit_doc(request):
         publication.keywords = request.POST.getlist("keywords[]")
         # Delete all existing assets
         models.PublicationAsset.objects.filter(
-            publication=publication
+            publication=publication,
         ).delete()
         html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
         body_html = html_zip.open("document.html").read().decode("utf-8")
@@ -160,7 +167,8 @@ def reject_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user
+            document=document,
+            user=request.user,
         ).first()
     ):
         # Access forbidden
@@ -176,7 +184,7 @@ def reject_doc(request):
         )
     else:
         publication = models.Publication.objects.filter(
-            document_id=document_id
+            document_id=document_id,
         ).first()
         if not publication:
             # Access forbidden
@@ -215,7 +223,8 @@ def review_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user
+            document=document,
+            user=request.user,
         ).first()
     ):
         # Access forbidden
@@ -266,7 +275,9 @@ def publish_doc(request):
     if (
         document.owner != request.user
         and not AccessRight.objects.filter(
-            document=document, user=request.user, rights="write"
+            document=document,
+            user=request.user,
+            rights="write",
         ).first()
     ):
         # Access forbidden
@@ -276,11 +287,12 @@ def publish_doc(request):
         or models.Editor.objects.filter(user=request.user).first()
     ):
         publication, created = models.Publication.objects.get_or_create(
-            document_id=document_id, defaults={"submitter_id": request.user.id}
+            document_id=document_id,
+            defaults={"submitter_id": request.user.id},
         )
     else:
         publication = models.Publication.objects.filter(
-            document_id=document_id
+            document_id=document_id,
         )
         if not publication:
             # Access forbidden
@@ -314,10 +326,13 @@ def publish_doc(request):
         ):
             continue
         file = ContentFile(
-            html_zip.open(filepath).read(), name=filepath.split("/")[-1]
+            html_zip.open(filepath).read(),
+            name=filepath.split("/")[-1],
         )
         asset = models.PublicationAsset.objects.create(
-            publication=publication, file=file, filepath=filepath
+            publication=publication,
+            file=file,
+            filepath=filepath,
         )
         body_html = body_html.replace(filepath, asset.file.url)
 
@@ -332,8 +347,10 @@ def publish_doc(request):
 
 def list_publications(request):
     publications = models.Publication.objects.filter(
-        status="published"
-    ).order_by("-added")
+        status="published",
+    ).order_by(
+        "-added",
+    )
     response = {}
     response["publications"] = [
         {
@@ -363,7 +380,8 @@ def get_publication(request, id):
         if not request.user.is_anonymous and (
             document.owner == request.user
             or AccessRight.objects.filter(
-                document=document, user=request.user
+                document=document,
+                user=request.user,
             ).first()
         ):
             # Has access right

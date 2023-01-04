@@ -1,9 +1,8 @@
-from django.core.mail import send_mail
+from base.html_email import html_email
 from django.conf import settings
+from django.core.mail import send_mail
 from django.utils.html import escape
 from django.utils.translation import gettext as _
-
-from base.html_email import html_email
 
 
 def send_submit_notification(
@@ -17,26 +16,22 @@ def send_submit_notification(
     if len(document_title) == 0:
         document_title = _("Untitled")
     message_text = _(
-        (
-            f"Hey {editor_name}, the document '{document_title}' has "
-            "been submitted to be published. You or another editor need to "
-            "approve it before it will be made accessible to the general "
-            "public."
-            f"\nOpen the document: {link}"
-        )
+        f"Hey {editor_name}, the document '{document_title}' has "
+        "been submitted to be published. You or another editor need to "
+        "approve it before it will be made accessible to the general "
+        "public."
+        f"\nOpen the document: {link}",
     )
     body_html_intro = _(
-        (
-            f"<p>Hey {escape(editor_name)}<br>the document '{escape(document_title)}' has "
-            "been submitted to be published. You or another editor need to "
-            "approve it before it will be made accessible to the general "
-            "public.</p>"
-        )
+        f"<p>Hey {escape(editor_name)}<br>the document '{escape(document_title)}' has "
+        "been submitted to be published. You or another editor need to "
+        "approve it before it will be made accessible to the general "
+        "public.</p>",
     )
     if len(message):
         message_text += _(f"Message from the author: {message}")
         body_html_intro += _(
-            f"<p>Message from the author: {escape(message)}</p>"
+            f"<p>Message from the author: {escape(message)}</p>",
         )
     review_document_str = _(f"Review {escape(document_title)}")
     access_the_document_str = _("Access the Document")
