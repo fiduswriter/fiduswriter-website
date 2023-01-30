@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.sites.models import Site
+
 from document.models import Document
 
 
@@ -41,7 +43,7 @@ class Publication(models.Model):
     )  # The HTML with asset locations replaced.
 
     def __str__(self):
-        return f"Document {self.document_id} ({self.status})"
+        return f"{self.title} ({self.document_id}, {self.status})"
 
 
 def publication_asset_location(instance, filename):
@@ -66,6 +68,22 @@ class PublicationAsset(models.Model):
         max_length=255,
         help_text="The original filepath.",
     )
+
+default_style = """
+:root {
+    --posts_per_page: 10; /* Number of posts per page on frontpage. Disable for all. */
+}
+"""
+
+
+class Design(models.Model):
+    site = models.OneToOneField(Site, on_delete=models.deletion.CASCADE)
+    style = models.TextField(
+        help_text="The CSS style definiton.", default=default_style
+    )
+
+    def __str__(self):
+        return f"{self.site.name}"
 
 
 class Editor(models.Model):

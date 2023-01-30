@@ -22,3 +22,9 @@ class EditorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Editor, EditorAdmin)
+
+
+class DesignAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(models.Design, DesignAdmin)

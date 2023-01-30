@@ -1,5 +1,5 @@
-import {whenReady, ensureCSS, setDocTitle, getJson} from "../../common"
-import {overviewBodyTemplate, websiteOverviewTitle} from "./templates"
+import {whenReady, setDocTitle, getJson} from "../../common"
+import {overviewBodyTemplate, overviewContentTemplate, websiteOverviewTitle} from "./templates"
 
 
 export class WebsiteOverview {
@@ -16,32 +16,71 @@ export class WebsiteOverview {
 
         this.filters = {} // current applied filters
         this.filteredPublications = [] // Shortened publication list after applying filters.
+        this.postsPerPage = false
+        this.numPages = false
+        this.downloadedPage = 0
     }
 
     init() {
-        return this.getPublications().then(
-            () => whenReady()
+        return this.getCSS().then(
+          () => whenReady()
+        ).then(
+          () => this.readSettingsFromCSS()
+        ).then(
+          () => this.getPublications()
         ).then(
             () => this.render()
         ).then(
             () => this.bind()
+        ).then(
+            () => this.loadMore()
         )
     }
 
-    getPublications() {
-        return getJson("/api/website/list_publications/").then(
+    getCSS() {
+        return getJson('/api/website/get_style/').then(
             json => {
-                this.siteName = json.site_name
-                let keywords = []
-                let authors = []
+                if (json.style) {
+                    const style = document.createElement("style")
+                    style.innerHTML = json.style
+                    document.head.appendChild(style)
+                }
+            }
+        )
+    }
+
+    readSettingsFromCSS() {
+        const postsPerPage = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--posts_per_page'), 10)
+        if (!isNaN(postsPerPage)) {
+            this.postsPerPage = postsPerPage
+        }
+    }
+
+    getPublications() {
+        if (this.currentlyDownloadingPublications) {
+            return false
+        }
+        this.currentlyDownloadingPublications = true
+        const url = this.postsPerPage ? `/api/website/list_publications/${this.postsPerPage}/${this.downloadedPage+1}/` : '/api/website/list_publications/'
+        return getJson(url).then(
+            json => {
+                if (!this.downloadedPage) {
+                    this.siteName = json.site_name
+                    if (json.num_pages) {
+                        this.numPages = json.num_pages
+                    }
+                }
+                let keywords = [...this.keywords]
+                let authors = [...this.authors]
                 json.publications.forEach(publication => {
                     keywords = keywords.concat(publication.keywords)
                     authors = authors.concat(publication.authors)
                 })
-                this.publications = json.publications
-                this.filteredPublications = json.publications
+                this.publications = this.filteredPublications = this.publications.concat(json.publications)
                 this.keywords = [...new Set(keywords)]
                 this.authors = [...new Set(authors)]
+                this.downloadedPage += 1
+                this.currentlyDownloadingPublications = false
             }
         )
     }
@@ -50,9 +89,6 @@ export class WebsiteOverview {
         this.dom = document.createElement("body")
         this.dom.classList.add("cms")
         this.renderBody()
-        ensureCSS([
-            staticUrl("css/website_overview.css")
-        ])
         document.body = this.dom
         setDocTitle(websiteOverviewTitle, this.app)
     }
@@ -63,6 +99,16 @@ export class WebsiteOverview {
             siteName: this.siteName,
             authors: this.authors,
             keywords: this.keywords,
+            publications: this.filteredPublications,
+            filters: this.filters
+        })
+    }
+
+    rerenderContent() {
+        const contentDOM = this.dom.querySelector('div.content')
+        contentDOM.innerHTML = overviewContentTemplate({
+            keywords: this.keywords,
+            authors: this.authors,
             publications: this.filteredPublications,
             filters: this.filters
         })
@@ -95,6 +141,21 @@ export class WebsiteOverview {
             this.renderBody()
 
         })
+        this.dom.addEventListener('scroll', () => {
+            this.loadMore()
+        })
+    }
+
+    loadMore() {
+        if (this.dom.scrollTop + this.dom.clientHeight >= this.dom.scrollHeight) {
+            if (this.numPages && this.numPages > this.downloadedPage) {
+                this.getPublications().then(
+                    () => this.rerenderContent()
+                ).then(
+                    () => this.loadMore()
+                )
+            }
+        }
     }
 
     applyFilters() {

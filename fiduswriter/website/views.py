@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from document.models import AccessRight
 from document.models import Document
+from django.core.paginator import Paginator
 
 from . import emails
 from . import models
@@ -345,13 +346,19 @@ def publish_doc(request):
     return JsonResponse(response, status=status)
 
 
-def list_publications(request):
+def list_publications(request, per_page=False, page_number=1):
     publications = models.Publication.objects.filter(
         status="published",
     ).order_by(
         "-added",
     )
     response = {}
+    if per_page:
+        paginator = Paginator(publications, per_page)
+        page = paginator.get_page(page_number)
+        publications = page.object_list
+        response["num_pages"] = paginator.num_pages
+
     response["publications"] = [
         {
             "title": pub.title,
@@ -390,4 +397,12 @@ def get_publication(request, id):
             response["can_edit"] = False
         response["doc_id"] = publication.document_id
 
+    return JsonResponse(response, status=200)
+
+
+def get_style(request):
+    response = {}
+    design = models.Design.objects.filter(site__id=get_current_site(request).id).first()
+    if design:
+        response["style"] = design.style
     return JsonResponse(response, status=200)

@@ -18,8 +18,18 @@ urlpatterns = [
         name="website_list_publications",
     ),
     re_path(
+        "^list_publications/(?P<per_page>[0-9]+)/(?P<page_number>[0-9]+)/$",
+        views.list_publications,
+        name="website_list_publications",
+    ),
+    re_path(
         "^get_publication/(?P<id>[0-9]+)/$",
         views.get_publication,
         name="website_get_publication",
+    ),
+    re_path(
+        "^get_style/$",
+        views.get_style,
+        name="website_get_style",
     ),
 ]

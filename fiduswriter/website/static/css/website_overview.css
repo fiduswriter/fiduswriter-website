@@ -1,9 +1,16 @@
+:root {
+    overflow: hidden;
+}
+
 body.cms {
     background-color: white;
-    margin: 30px;
+    padding: 30px;
     font-size: 14pt;
     min-width: initial;
     overflow-y: auto;
+    max-height: 100vh;
+    width: initial;
+    height: initial;
 }
 
 body.cms div.article-title {
@@ -51,6 +58,8 @@ body.cms div.filters {
     font-size: 16px;
     margin-top: 31px;
     margin-right: 4vh;
+    position: sticky;
+    top: 10px;
 }
 
 body.cms div.filters div.filter {
