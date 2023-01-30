@@ -23,11 +23,11 @@ export class WebsiteOverview {
 
     init() {
         return this.getCSS().then(
-          () => whenReady()
+            () => whenReady()
         ).then(
-          () => this.readSettingsFromCSS()
+            () => this.readSettingsFromCSS()
         ).then(
-          () => this.getPublications()
+            () => this.getPublications()
         ).then(
             () => this.render()
         ).then(
@@ -38,7 +38,7 @@ export class WebsiteOverview {
     }
 
     getCSS() {
-        return getJson('/api/website/get_style/').then(
+        return getJson("/api/website/get_style/").then(
             json => {
                 if (json.style) {
                     const style = document.createElement("style")
@@ -50,7 +50,7 @@ export class WebsiteOverview {
     }
 
     readSettingsFromCSS() {
-        const postsPerPage = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--posts_per_page'), 10)
+        const postsPerPage = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--posts_per_page"))
         if (!isNaN(postsPerPage)) {
             this.postsPerPage = postsPerPage
         }
@@ -61,7 +61,7 @@ export class WebsiteOverview {
             return false
         }
         this.currentlyDownloadingPublications = true
-        const url = this.postsPerPage ? `/api/website/list_publications/${this.postsPerPage}/${this.downloadedPage+1}/` : '/api/website/list_publications/'
+        const url = this.postsPerPage ? `/api/website/list_publications/${this.postsPerPage}/${this.downloadedPage + 1}/` : "/api/website/list_publications/"
         return getJson(url).then(
             json => {
                 if (!this.downloadedPage) {
@@ -105,7 +105,7 @@ export class WebsiteOverview {
     }
 
     rerenderContent() {
-        const contentDOM = this.dom.querySelector('div.content')
+        const contentDOM = this.dom.querySelector("div.content")
         contentDOM.innerHTML = overviewContentTemplate({
             keywords: this.keywords,
             authors: this.authors,
@@ -141,7 +141,7 @@ export class WebsiteOverview {
             this.renderBody()
 
         })
-        this.dom.addEventListener('scroll', () => {
+        this.dom.addEventListener("scroll", () => {
             this.loadMore()
         })
     }

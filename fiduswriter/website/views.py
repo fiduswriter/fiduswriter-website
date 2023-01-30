@@ -402,7 +402,9 @@ def get_publication(request, id):
 
 def get_style(request):
     response = {}
-    design = models.Design.objects.filter(site__id=get_current_site(request).id).first()
+    design = models.Design.objects.filter(
+        site__id=get_current_site(request).id
+    ).first()
     if design:
         response["style"] = design.style
     return JsonResponse(response, status=200)

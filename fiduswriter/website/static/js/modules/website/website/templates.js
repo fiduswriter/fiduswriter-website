@@ -34,7 +34,7 @@ export const overviewContentTemplate = ({keywords, authors, publications, filter
 export const overviewBodyTemplate = ({user, siteName, publications, authors, keywords, filters}) => `
     <link rel="stylesheet" href="${staticUrl("css/website_overview.css")}">
     <div class="headers">
-        ${user.is_authenticated ? `<div class="breadcrumbs"><a href="/documents/">${gettext("Documents")}</a></div>` : ''}
+        ${user.is_authenticated ? `<div class="breadcrumbs"><a href="/documents/">${gettext("Documents")}</a></div>` : ""}
         <h1 class="site-name">${siteName}</h1>
     </div>
     <div class="content">

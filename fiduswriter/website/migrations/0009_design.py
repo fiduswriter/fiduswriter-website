@@ -34,7 +34,8 @@ class Migration(migrations.Migration):
                 (
                     "site",
                     models.OneToOneField(
-                        on_delete=django.db.models.deletion.CASCADE, to="sites.site"
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="sites.site",
                     ),
                 ),
             ],

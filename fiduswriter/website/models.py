@@ -69,6 +69,7 @@ class PublicationAsset(models.Model):
         help_text="The original filepath.",
     )
 
+
 default_style = """
 :root {
     --posts_per_page: 10; /* Number of posts per page on frontpage. Disable for all. */
