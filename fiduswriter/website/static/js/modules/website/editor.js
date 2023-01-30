@@ -83,6 +83,9 @@ export class EditorWebsite {
             }]
         }
         this.editor.menu.headerbarModel.content.push(websiteMenu)
+        if (this.editor.menu.headerView) {
+            this.editor.menu.headerView.update()
+        }
         return Promise.resolve()
     }
 
