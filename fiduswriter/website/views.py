@@ -138,13 +138,14 @@ def submit_doc(request):
         if not created and access_right.rights != "write":
             access_right.rights = "write"
             access_right.save()
-        emails.send_submit_notification(
-            document.title,
-            link,
-            message,
-            editor.user.readable_name,
-            editor.user.email,
-        )
+        if editor.user != request.user:
+            emails.send_submit_notification(
+                document.title,
+                link,
+                request.POST.get("message"),
+                editor.user.readable_name,
+                editor.user.email,
+            )
 
     response["status"] = publication.status
     return JsonResponse(response, status=status)
@@ -203,6 +204,16 @@ def reject_doc(request):
     publication.save()
     response["message"] = message
     response["status"] = publication.status
+    if document.owner != request.user:
+        emails.send_reject_notification(
+            document.title,
+            HttpRequest.build_absolute_uri(
+                request, document.get_absolute_url()
+            ),
+            request.POST.get("message"),
+            document.owner.readable_name,
+            document.owner.email,
+        )
     return JsonResponse(response, status=status)
 
 
@@ -255,6 +266,16 @@ def review_doc(request):
     publication.messages.append(message)
     publication.save()
     response["message"] = message
+    if document.owner != request.user:
+        emails.send_review_notification(
+            document.title,
+            HttpRequest.build_absolute_uri(
+                request, document.get_absolute_url()
+            ),
+            request.POST.get("message"),
+            document.owner.readable_name,
+            document.owner.email,
+        )
     return JsonResponse(response, status=status)
 
 
@@ -343,6 +364,16 @@ def publish_doc(request):
 
     response["status"] = publication.status
     status = 200
+    if document.owner != request.user:
+        emails.send_publish_notification(
+            document.title,
+            HttpRequest.build_absolute_uri(
+                request, document.get_absolute_url()
+            ),
+            request.POST.get("message"),
+            document.owner.readable_name,
+            document.owner.email,
+        )
     return JsonResponse(response, status=status)
 
 

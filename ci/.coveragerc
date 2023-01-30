@@ -1,0 +1,6 @@
+[run]
+omit =
+	*migrations*
+	venv/*
+	*virtualenv*
+	configuration.py

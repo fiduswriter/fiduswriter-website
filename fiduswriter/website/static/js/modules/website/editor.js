@@ -106,6 +106,7 @@ export class EditorWebsite {
 
         const dialog = new Dialog({
             width: 750,
+            id: "submission-dialog",
             buttons,
             title: gettext("Submit document to be published on website"),
             body: submitDialogTemplate({
@@ -172,7 +173,7 @@ export class EditorWebsite {
             ],
             dialog = new Dialog({
                 width: 750,
-                id: "review-message",
+                id: "submission-dialog",
                 title: gettext("Publish, reject or ask for changes"),
                 body: submitDialogTemplate({
                     messages: this.submission.messages,
