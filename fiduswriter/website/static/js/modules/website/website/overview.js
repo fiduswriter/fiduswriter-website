@@ -1,5 +1,5 @@
 import {whenReady, setDocTitle, getJson} from "../../common"
-import {overviewBodyTemplate, overviewContentTemplate, websiteOverviewTitle} from "./templates"
+import {overviewBodyTemplate, overviewContentTemplate} from "./templates"
 
 
 export class WebsiteOverview {
@@ -87,10 +87,10 @@ export class WebsiteOverview {
 
     render() {
         this.dom = document.createElement("body")
-        this.dom.classList.add("cms")
+        this.dom.classList.add("overview")
         this.renderBody()
         document.body = this.dom
-        setDocTitle(websiteOverviewTitle, this.app)
+        setDocTitle(this.siteName, this.app)
     }
 
     renderBody() {

@@ -3,16 +3,31 @@ import {escapeText} from "../../common"
 const publicationOverviewTemplate = ({title, keywords, authors, updated, _added, abstract, id}) =>
     `<a class="article"  href="/article/${id}/">
         <div class="keywords">${keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join("")}</div>
-        <h1 class="article-title">${title}</h1>
+        <h1 class="article-title">${escapeText(title)}</h1>
         <h3 class="article-updated">${updated.slice(0, 10)}</h3>
         <div class="authors">${authors.map(author => `<div class="author">${escapeText(author)}</div>`).join("")}</div>
         <div class="abstract">${abstract.slice(0, 250).split("\n").map(part => `<p>${escapeText(part)}</p>`).join("")}</div>
     </a>`
 
-export const articleBodyTemplate = ({_user, publication}) =>
-    `<link rel="stylesheet" href="${staticUrl("css/website_overview.css")}">
-    ${publication.can_edit ? `<div class="edit"><a href="/document/${publication.doc_id}/">${gettext("Edit")}</a></div>` : ""}
-        ${publication.content}`
+export const articleBodyTemplate = ({_user, publication, siteName}) =>
+    `<link rel="stylesheet" href="${staticUrl("css/website.css")}">
+        <nav class="header">
+            <a href="/">${
+    escapeText(siteName)
+}</a>
+            <span>${
+    escapeText(publication.title)
+}</span>
+            ${
+    publication.can_edit ? `<a href="/document/${publication.doc_id}/">${gettext("Edit")}</a>` : ""
+}
+        </nav>
+        <div class="articles">
+            <div class="keywords">${publication.keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join("")}</div>
+            <h3 class="article-updated">${publication.updated.slice(0, 10)}</h3>
+            <div class="authors">${publication.authors.map(author => `<div class="author">${escapeText(author)}</div>`).join("")}</div>
+            ${publication.content}
+        </div>`
 
 export const overviewContentTemplate = ({keywords, authors, publications, filters}) =>
     `<div class="filters">
@@ -32,14 +47,12 @@ export const overviewContentTemplate = ({keywords, authors, publications, filter
     <div class="articles">${publications.map(publication => publicationOverviewTemplate(publication)).join("")}</div>`
 
 export const overviewBodyTemplate = ({user, siteName, publications, authors, keywords, filters}) => `
-    <link rel="stylesheet" href="${staticUrl("css/website_overview.css")}">
+    <link rel="stylesheet" href="${staticUrl("css/website.css")}">
     <div class="headers">
-        ${user.is_authenticated ? `<div class="breadcrumbs"><a href="/documents/">${gettext("Documents")}</a></div>` : ""}
-        <h1 class="site-name">${siteName}</h1>
+        ${user.is_authenticated ? `<nav class="header"><a href="/documents/">${gettext("Fidus Writer")}</a></nav>` : ""}
+        <h1 class="site-name">${escapeText(siteName)}</h1>
     </div>
     <div class="content">
         ${overviewContentTemplate({keywords, authors, publications, filters})}
     </div>
     `
-
-export const websiteOverviewTitle = gettext("Documents")

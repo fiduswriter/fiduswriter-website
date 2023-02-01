@@ -9,6 +9,8 @@ export class WebsiteArticle {
         this.user = user
         this.id = id
 
+        this.siteName = "" // Name of site as stored in database.
+
         this.publication = {}
     }
 
@@ -22,15 +24,19 @@ export class WebsiteArticle {
 
     getPublication() {
         return getJson(`/api/website/get_publication/${this.id}/`).then(
-            publication => this.publication = publication
+            json => {
+                this.publication = json.publication
+                this.siteName = json.site_name
+            }
         )
     }
 
     render() {
         this.dom = document.createElement("body")
-        this.dom.classList.add("cms")
+        this.dom.classList.add("article")
         this.dom.innerHTML = articleBodyTemplate({
             user: this.user,
+            siteName: this.siteName,
             publication: this.publication
         })
         ensureCSS([

@@ -408,13 +408,20 @@ def list_publications(request, per_page=False, page_number=1):
 
 
 def get_publication(request, id):
-    publication = models.Publication.objects.filter(id=id).first()
+    pub = models.Publication.objects.filter(id=id).first()
     response = {}
-    if publication:
-        response["title"] = publication.title
-        response["content"] = publication.html_output
+    response["site_name"] = get_current_site(request).name
+    if pub:
+        publication = {
+            "title": pub.title,
+            "authors": pub.authors,
+            "keywords": pub.keywords,
+            "added": pub.added,
+            "updated": pub.updated,
+            "content": pub.html_output
+        }
 
-        document = publication.document
+        document = pub.document
         if not request.user.is_anonymous and (
             document.owner == request.user
             or AccessRight.objects.filter(
@@ -423,11 +430,11 @@ def get_publication(request, id):
             ).first()
         ):
             # Has access right
-            response["can_edit"] = True
+            publication["can_edit"] = True
         else:
-            response["can_edit"] = False
-        response["doc_id"] = publication.document_id
-
+            publication["can_edit"] = False
+        publication["doc_id"] = pub.document_id
+        response["publication"] = publication
     return JsonResponse(response, status=200)
 
 
