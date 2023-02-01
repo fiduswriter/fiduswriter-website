@@ -12,6 +12,7 @@ export class WebsiteArticle {
         this.siteName = "" // Name of site as stored in database.
 
         this.publication = {}
+        this.popUp = false
     }
 
     init() {
@@ -49,17 +50,39 @@ export class WebsiteArticle {
     }
 
     bind() {
-        this.dom.addEventListener('click', event => {
-            const footnoteLink = event.target.closest('a.footnote')
-            if (!footnoteLink) {
+        this.dom.addEventListener("click", event => {
+            const target = event.target
+            if (this.popUp && !this.popUp.contains(target)) {
+                this.dom.removeChild(this.popUp)
+                this.popUp = false
+            }
+            const link = target.closest("a")
+            if (!link) {
+                return
+            }
+            const footnoteLink = link.classList.contains("footnote")
+            const bibliographyLink = link.classList.contains("bibliography")
+            if (!footnoteLink && !bibliographyLink) {
                 return
             }
             event.preventDefault()
             event.stopPropagation()
-            const href = footnoteLink.getAttribute("href")
-            const footnote = this.dom.querySelector(href)
-            if (footnote) {
-                footnote.scrollIntoView()
+            const href = link.getAttribute("href")
+            const linkRef = this.dom.querySelector(href)
+            if (linkRef) {
+                if (this.popUp) {
+                    if (this.popUp.firstElementChild !== this.popUp.lastElementChild) {
+                        this.popUp.removeChild(this.popUp.lastElementChild)
+                    }
+                } else {
+                    this.popUp = document.createElement("div")
+                    this.popUp.classList.add("popup")
+                    this.popUp.style.position = "absolute"
+                    this.popUp.style.top = `${event.clientY + this.dom.scrollTop + 10}px`
+                    this.popUp.style.left = `${event.clientX + 10}px`
+                }
+                this.popUp.innerHTML += linkRef.outerHTML
+                this.dom.appendChild(this.popUp)
             }
         })
     }

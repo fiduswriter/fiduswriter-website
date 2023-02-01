@@ -12,6 +12,7 @@ body {
     width: initial;
     height: initial;
     line-height: 1.6em;
+    position: relative;
 }
 
 nav.header {
@@ -214,4 +215,31 @@ div.abstract {
 a.footnote {
     vertical-align: super;
     font-size: 70%;
+}
+
+aside.footnote {
+    position: relative;
+}
+
+aside.footnote > label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 80%;
+}
+
+div.popup > * + * {
+    border-top: 1px black dashed;
+}
+
+aside.footnote > *:not(label) {
+    margin-left: 30px;
+}
+
+div.popup {
+    background-color: white;
+    display: block;
+    border: 1px solid black;
+    padding: 0 5px 4px;
+    border-radius: 4px;
 }
