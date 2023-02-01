@@ -19,6 +19,8 @@ export class WebsiteArticle {
             () => whenReady()
         ).then(
             () => this.render()
+        ).then(
+            () => this.bind()
         )
     }
 
@@ -44,5 +46,21 @@ export class WebsiteArticle {
         ])
         document.body = this.dom
         setDocTitle(this.publication.title, this.app)
+    }
+
+    bind() {
+        this.dom.addEventListener('click', event => {
+            const footnoteLink = event.target.closest('a.footnote')
+            if (!footnoteLink) {
+                return
+            }
+            event.preventDefault()
+            event.stopPropagation()
+            const href = footnoteLink.getAttribute("href")
+            const footnote = this.dom.querySelector(href)
+            if (footnote) {
+                footnote.scrollIntoView()
+            }
+        })
     }
 }
