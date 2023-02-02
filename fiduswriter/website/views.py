@@ -41,6 +41,7 @@ def get_doc_info(request):
     if publication:
         response["submission"]["status"] = publication.status
         response["submission"]["messages"] = publication.messages
+        response["submission"]["id"] = publication.id
     else:
         response["submission"]["status"] = "unsubmitted"
         response["submission"]["messages"] = []
@@ -363,6 +364,7 @@ def publish_doc(request):
     publication.save()
 
     response["status"] = publication.status
+    response["id"] = publication.id
     status = 200
     if document.owner != request.user:
         emails.send_publish_notification(

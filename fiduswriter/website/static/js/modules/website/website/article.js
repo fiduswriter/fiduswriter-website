@@ -60,14 +60,12 @@ export class WebsiteArticle {
             if (!link) {
                 return
             }
-            const footnoteLink = link.classList.contains("footnote")
-            const bibliographyLink = link.classList.contains("bibliography")
-            if (!footnoteLink && !bibliographyLink) {
+            const href = link.getAttribute("href")
+            if (!href || href[0] !== "#") {
                 return
             }
             event.preventDefault()
             event.stopPropagation()
-            const href = link.getAttribute("href")
             const linkRef = this.dom.querySelector(href)
             if (linkRef) {
                 if (this.popUp) {

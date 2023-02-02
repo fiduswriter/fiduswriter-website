@@ -212,27 +212,34 @@ div.abstract {
     font-size: 12pt;
 }
 
-a.footnote {
+a.footnote,
+a.affiliation {
     vertical-align: super;
     font-size: 70%;
 }
 
-aside.footnote {
+aside.footnote,
+aside.affiliation {
     position: relative;
 }
 
-aside.footnote > label {
+aside.footnote > label,
+aside.affiliation > label {
     position: absolute;
-    top: 10px;
     left: 0;
     font-size: 80%;
+}
+
+aside.footnote > label {
+    top: 10px;
 }
 
 div.popup > * + * {
     border-top: 1px black dashed;
 }
 
-aside.footnote > *:not(label) {
+aside.footnote > *:not(label),
+aside.affiliation > *:not(label) {
     margin-left: 30px;
 }
 
@@ -242,4 +249,8 @@ div.popup {
     border: 1px solid black;
     padding: 0 5px 4px;
     border-radius: 4px;
+}
+
+img {
+    max-width: 100%;
 }

@@ -82,11 +82,25 @@ export class EditorWebsite {
                 }
             }]
         }
+        this.addArticleLinkUI(websiteMenu)
         this.editor.menu.headerbarModel.content.push(websiteMenu)
         if (this.editor.menu.headerView) {
             this.editor.menu.headerView.update()
         }
         return Promise.resolve()
+    }
+
+    addArticleLinkUI(websiteMenu) {
+        if (this.submission.id && websiteMenu.content.length < 2) {
+            websiteMenu.content.push({
+                title: gettext("View on website"),
+                type: "action",
+                tooltip: gettext("Go to the last published version on the website."),
+                action: () => {
+                    this.editor.app.goTo(`/article/${this.submission.id}/`)
+                }
+            })
+        }
     }
 
     submitDialog() {
@@ -191,7 +205,10 @@ export class EditorWebsite {
 
     publish(message) {
         const doc = this.editor.getDoc({changes: "acceptAllNoInsertions"})
+        doc.path = ""
         const article = doc.content
+        // remove title
+        article.content.shift()
         const authors = article.content.filter(
             part => part.attrs.metadata === "authors" && !part.attrs.hidden
         ).map(
@@ -243,8 +260,13 @@ export class EditorWebsite {
         return publisher.init().then(
             ({json}) => {
                 this.submission.status = json.status
+                this.submission.id = json.id
                 this.submission.messages.push(json.message)
                 addAlert("info", gettext("Published document."))
+                const websiteMenu = this.editor.menu.headerbarModel.content.find(menu => menu.id === "website")
+                if (websiteMenu) {
+                    this.addArticleLinkUI(websiteMenu)
+                }
             }
         )
     }
