@@ -23,9 +23,9 @@ export const articleBodyTemplate = ({_user, publication, siteName}) =>
 }
         </nav>
         <div class="articles">
-            <div class="keywords">${publication.keywords.map(keyword => `<span class="keyword">${escapeText(keyword)}</div>`).join("")}</span>
-            <h1 class="article-title">${escapeText(publication.title)}</h1>
+            <div class="keywords">${publication.keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join("")}</div>
             <h3 class="article-updated">${publication.updated.slice(0, 10)}</h3>
+            <h1 class="article-title">${escapeText(publication.title)}</h1>
             ${publication.content}
         </div>`
 

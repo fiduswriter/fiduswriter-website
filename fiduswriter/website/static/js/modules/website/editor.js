@@ -209,6 +209,7 @@ export class EditorWebsite {
         const article = doc.content
         // remove title
         article.content.shift()
+        // Author field is only used on frontpage. We leave it in to be used on main article page.
         const authors = article.content.filter(
             part => part.attrs.metadata === "authors" && !part.attrs.hidden
         ).map(
@@ -221,7 +222,6 @@ export class EditorWebsite {
         if (!authors.length) {
             authors.push(this.editor.user.name)
         }
-
         const keywords = article.content.filter(
             part => part.attrs.metadata === "keywords" && !part.attrs.hidden
         ).map(
@@ -232,6 +232,12 @@ export class EditorWebsite {
                 []
         ).flat()
 
+        // remove keywords
+        article.content = article.content.filter(
+            part => part.attrs.metadata !== "keywords"
+        )
+
+        // Abstract field is only used on front page. We leave it in to be used on the main article page.
         let abstract = article.content.filter(
             part => part.attrs.metadata === "abstract" && !part.attrs.hidden
         ).map(part => getTextContent(part)).join("").replace(/(^\s*)|(\s*$)/gi, "").replace(/[ ]{2,}/gi, " ").replace(/\n /, "\n").replace(/\n{2,}/gi, "\n").trim()
