@@ -12,7 +12,6 @@ def send_submit_notification(
     editor_name,
     editor_email,
 ):
-
     if len(document_title) == 0:
         document_title = _("Untitled")
     message_text = _(
@@ -65,7 +64,6 @@ def send_review_notification(
     author_name,
     author_email,
 ):
-
     if len(document_title) == 0:
         document_title = _("Untitled")
     message_text = _(
@@ -116,7 +114,6 @@ def send_reject_notification(
     author_name,
     author_email,
 ):
-
     if len(document_title) == 0:
         document_title = _("Untitled")
     message_text = _(
@@ -165,7 +162,6 @@ def send_publish_notification(
     author_name,
     author_email,
 ):
-
     if len(document_title) == 0:
         document_title = _("Untitled")
     message_text = _(

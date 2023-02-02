@@ -420,7 +420,7 @@ def get_publication(request, id):
             "keywords": pub.keywords,
             "added": pub.added,
             "updated": pub.updated,
-            "content": pub.html_output
+            "content": pub.html_output,
         }
 
         document = pub.document
