@@ -1,0 +1,10 @@
+include LICENSE
+include README.md
+recursive-include fiduswriter/website/static *
+recursive-include fiduswriter/website/fixtures *
+recursive-include fiduswriter/website/templates *
+recursive-include fiduswriter/website/locale *
+prune travis
+prune fiduswriter/venv
+prune venv
+prune fiduswriter/configuration.py
