@@ -91,7 +91,7 @@ export class EditorWebsite {
     }
 
     addArticleLinkUI(websiteMenu) {
-        if (this.submission.id && websiteMenu.content.length < 2) {
+        if (this.submission.id && ["resubmitted", "published"].includes(this.submission.status) && websiteMenu.content.length < 2) {
             websiteMenu.content.push({
                 title: gettext("View on website"),
                 type: "action",
@@ -220,7 +220,7 @@ export class EditorWebsite {
                 []
         ).flat()
         if (!authors.length) {
-            authors.push(this.editor.user.name)
+            authors.push(this.submission.submitter || this.editor.user.name)
         }
         const keywords = article.content.filter(
             part => part.attrs.metadata === "keywords" && !part.attrs.hidden

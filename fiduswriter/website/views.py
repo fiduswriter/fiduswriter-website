@@ -40,6 +40,9 @@ def get_doc_info(request):
     ).first()
     if publication:
         response["submission"]["status"] = publication.status
+        response["submission"][
+            "submitter"
+        ] = publication.submitter.readable_name
         response["submission"]["messages"] = publication.messages
         response["submission"]["id"] = publication.id
     else:

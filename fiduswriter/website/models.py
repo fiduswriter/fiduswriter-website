@@ -9,6 +9,7 @@ STATUS_CHOICES = (
     ("unsubmitted", "Unsubmitted"),
     ("submitted", "Submitted"),
     ("published", "Published"),
+    ("rejected", "Rejected"),
     ("resubmitted", "Resubmitted"),
 )
 
