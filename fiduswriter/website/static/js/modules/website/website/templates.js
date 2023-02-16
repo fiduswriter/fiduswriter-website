@@ -5,12 +5,51 @@ const publicationOverviewTemplate = ({title, keywords, authors, updated, _added,
         <div class="keywords">${keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join("")}</div>
         <h1 class="article-title">${escapeText(title)}</h1>
         <h3 class="article-updated">${updated.slice(0, 10)}</h3>
-        <div class="authors">${authors.map(author => `<div class="author">${escapeText(author)}</div>`).join("")}</div>
+        <div class="authors">${authors.map(author => `<div class="author">${escapeText(author.firstname)}${author.lastname ? ` ${author.lastname}` : ""}</div>`).join("")}</div>
         <div class="abstract">${abstract.slice(0, 250).split("\n").map(part => `<p>${escapeText(part)}</p>`).join("")}</div>
     </a>`
 
-export const articleBodyTemplate = ({_user, publication, siteName}) =>
-    `<link rel="stylesheet" href="${staticUrl("css/website.css")}">
+export const articleBodyTemplate = ({_user, publication, siteName}) => {
+    const affiliations = {}
+    let affCounter = 0
+    let counter = 0
+    const authorsOutputs = []
+    publication.authors.forEach(author => {
+        let output = ""
+        if (author.firstname || author.lastname) {
+            output += `<span id="authors-${counter++}" class="person">`
+            const nameParts = []
+            if (author.firstname) {
+                nameParts.push(`<span class="firstname">${escapeText(author.firstname)}</span>`)
+            }
+            if (author.lastname) {
+                nameParts.push(`<span class="lastname">${escapeText(author.lastname)}</span>`)
+            }
+            if (nameParts.length) {
+                output += `<span class="name">${nameParts.join(" ")}</span>`
+            }
+            if (author.institution) {
+                let affNumber
+                if (affiliations[author.institution]) {
+                    affNumber = affiliations[author.institution]
+                } else {
+                    affNumber = ++affCounter
+                    affiliations[author.institution] = affNumber
+                }
+                output += `<a class="affiliation" href="#aff-${affNumber}">${affNumber}</a>`
+            }
+            output += "</span>"
+        } else if (author.institution) {
+            // There is an affiliation but no first/last name. We take this
+            // as a group collaboration.
+            output += `<span id="authors-${counter++}" class="group">`
+            output += `<span class="name">${escapeText(author.institution)}</span>`
+            output += "</span>"
+        }
+        authorsOutputs.push(output)
+    })
+    const authors = authorsOutputs.join(", ")
+    return `<link rel="stylesheet" href="${staticUrl("css/website.css")}">
         <nav class="header">
             <a href="/">${
     escapeText(siteName)
@@ -26,8 +65,16 @@ export const articleBodyTemplate = ({_user, publication, siteName}) =>
             <div class="keywords">${publication.keywords.map(keyword => `<div class="keyword">${escapeText(keyword)}</div>`).join("")}</div>
             <h3 class="article-updated">${publication.updated.slice(0, 10)}</h3>
             <h1 class="article-title">${escapeText(publication.title)}</h1>
+            <div class="article-part article-contributors article-authors">${authors}</div>
+            ${Object.keys(affiliations).length ?
+        `<div id="affiliations">${Object.entries(affiliations).map(
+            ([name, id]) => `<aside class="affiliation" id="aff-${id}"><label>${id}</label> <div>${escapeText(name)}</div></aside>`
+        ).join("")}</div>` :
+        ""
+}
             ${publication.content}
         </div>`
+}
 
 export const overviewContentTemplate = ({keywords, authors, publications, filters}) =>
     `<div class="filters">

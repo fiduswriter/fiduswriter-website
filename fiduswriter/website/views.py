@@ -1,3 +1,4 @@
+import json
 import time
 import zipfile
 
@@ -40,9 +41,16 @@ def get_doc_info(request):
     ).first()
     if publication:
         response["submission"]["status"] = publication.status
-        response["submission"][
-            "submitter"
-        ] = publication.submitter.readable_name
+        submitter = {
+            "email": publication.submitter.email,
+        }
+        if len(publication.submitter.first_name) > 0:
+            submitter["firstname"] = publication.submitter.first_name
+        else:
+            submitter["firstname"] = publication.submitter.username
+        if len(publication.submitter.last_name) > 0:
+            submitter["lastname"] = publication.submitter.last_name
+        response["submission"]["submitter"] = submitter
         response["submission"]["messages"] = publication.messages
         response["submission"]["id"] = publication.id
     else:
@@ -91,7 +99,7 @@ def submit_doc(request):
         # The user has permission to publish the document immediately.
         publication.title = request.POST.get("title")
         publication.abstract = request.POST.get("abstract")
-        publication.authors = request.POST.getlist("authors[]")
+        publication.authors = json.loads(request.POST.get("authors"))
         publication.keywords = request.POST.getlist("keywords[]")
         # Delete all existing assets
         models.PublicationAsset.objects.filter(
@@ -325,7 +333,7 @@ def publish_doc(request):
             return HttpResponse("Missing access rights", status=403)
     publication.title = request.POST.get("title")
     publication.abstract = request.POST.get("abstract")
-    publication.authors = request.POST.getlist("authors[]")
+    publication.authors = json.loads(request.POST.get("authors"))
     publication.keywords = request.POST.getlist("keywords[]")
     # Delete all existing assets
     models.PublicationAsset.objects.filter(publication=publication).delete()

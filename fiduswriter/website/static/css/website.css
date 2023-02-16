@@ -192,18 +192,18 @@ div.articles a.article h1.article-title {
 }
 
 div.articles h3.article-updated,
-div.articles div.authors {
+div.articles div.article-authors {
     font-family: Roboto, sans-serif;
     font-size: 14px;
     font-style: italic;
     display: inline-block;
 }
 
-div.articles a.article div.authors div.author {
+div.articles a.article div.article-authors div.author {
     display: inline-block;
 }
 
-div.articles a.article div.authors div.author + div.author::before {
+div.articles a.article div.article-authors div.author + div.author::before {
     content: ', ';
 }
 

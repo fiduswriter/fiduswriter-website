@@ -216,12 +216,32 @@ export class EditorWebsite {
             authorPart => authorPart.content ?
                 authorPart.content.filter(
                     author => !author.marks || !author.marks.find(mark => mark.type === "deletion")
-                ).map(author => `${author.attrs.firstname} ${author.attrs.lastname}`) :
+                ).map(author => author.attrs) :
                 []
         ).flat()
-        if (!authors.length) {
-            authors.push(this.submission.submitter || this.editor.user.name)
+        if (authors.length) {
+            // remove authors from document
+            article.content = article.content.filter(
+                part => part.attrs.metadata !== "authors"
+            )
+        } else {
+            if (this.submission.submitter) {
+                authors.push(this.submission.submitter)
+            } else {
+                const author = {
+                    firstname: this.editor.user.first_name || this.editor.user.name
+                }
+                if (this.editor.user.last_name.length) {
+                    author.lastname = this.editor.user.last_name
+                }
+                const email = this.editor.user.emails.find(email => email.primary)?.address
+                if (email) {
+                    author.email = email
+                }
+                authors.push(author)
+            }
         }
+        console.log({authors})
         const keywords = article.content.filter(
             part => part.attrs.metadata === "keywords" && !part.attrs.hidden
         ).map(

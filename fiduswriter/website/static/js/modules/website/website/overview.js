@@ -11,7 +11,7 @@ export class WebsiteOverview {
         this.siteName = "" // Name of site as stored in database.
         this.publications = [] // Publications as they come from the server
 
-        this.authors = [] // Every author used in at least one publication
+        this.authors = [] // Name of every author used in at least one publication
         this.keywords = [] // Every keyword used in at least one publication
 
         this.filters = {} // current applied filters
@@ -74,7 +74,7 @@ export class WebsiteOverview {
                 let authors = [...this.authors]
                 json.publications.forEach(publication => {
                     keywords = keywords.concat(publication.keywords)
-                    authors = authors.concat(publication.authors)
+                    authors = authors.concat(publication.authors.map(author => `${author.firstname}${author.lastname ? ` ${author.lastname}` : ""}`))
                 })
                 this.publications = this.filteredPublications = this.publications.concat(json.publications)
                 this.keywords = [...new Set(keywords)]
@@ -160,7 +160,7 @@ export class WebsiteOverview {
 
     applyFilters() {
         this.filteredPublications = this.publications.filter(publication => {
-            if (this.filters.author && !publication.authors.includes(this.filters.author)) {
+            if (this.filters.author && !publication.authors.find(author => `${author.firstname}${author.lastname ? ` ${author.lastname}` : ""}` === this.filters.author)) {
                 return false
             }
             if (this.filters.keyword && !publication.keywords.includes(this.filters.keyword)) {

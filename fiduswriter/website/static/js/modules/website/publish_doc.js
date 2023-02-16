@@ -22,7 +22,7 @@ export class PublishDoc extends HTMLExporter {
             {
                 doc_id: this.doc.id,
                 title: this.docTitle,
-                authors: this.authors,
+                authors: JSON.stringify(this.authors),
                 keywords: this.keywords,
                 abstract: this.abstract,
                 "html.zip": {file: blob, filename: "html.zip"},
