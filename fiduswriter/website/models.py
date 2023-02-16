@@ -86,16 +86,3 @@ class Design(models.Model):
 
     def __str__(self):
         return f"{self.site.name}"
-
-
-class Editor(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=True,
-        blank=True,
-        on_delete=models.deletion.CASCADE,
-        related_name="website_editor",
-    )
-
-    def __str__(self):
-        return f"Editor {self.user.username}"

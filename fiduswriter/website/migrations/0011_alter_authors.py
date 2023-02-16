@@ -22,15 +22,11 @@ def update_publications(apps, schema_editor):
         publication.save()
 
 
-def unmigrate(apps, schema_editor):
-    pass
-
-
 class Migration(migrations.Migration):
     dependencies = [
         ("website", "0010_alter_publication_status"),
     ]
 
     operations = [
-        migrations.RunPython(update_publications, unmigrate),
+        migrations.RunPython(update_publications),
     ]

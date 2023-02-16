@@ -3,6 +3,8 @@ import time
 import zipfile
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.base import ContentFile
@@ -14,6 +16,7 @@ from document.models import AccessRight
 from document.models import Document
 from django.core.paginator import Paginator
 
+from user.models import User
 from . import emails
 from . import models
 
@@ -58,8 +61,6 @@ def get_doc_info(request):
         response["submission"]["messages"] = []
     if request.user.has_perm(
         "website.add_publication",
-    ) or models.Editor.objects.filter(
-        user_id=request.user.id,
     ):
         user_role = "editor"
     else:
@@ -128,20 +129,31 @@ def submit_doc(request):
     }
     publication.messages.append(message)
     response["message"] = message
-    if not created:
+    if created:
+        codename = "add_publication"
+    else:
         if publication.status in ["published", "resubmitted"]:
             publication.status = "resubmitted"
+            codename = "change_publication"
         else:
             publication.status = "submitted"
+            codename = "add_publication"
     publication.save()
     link = HttpRequest.build_absolute_uri(request, document.get_absolute_url())
     user_ct = ContentType.objects.get(app_label="user", model="user")
-    for editor in models.Editor.objects.select_related("user").all():
-        if editor.user == document.owner or request.user == editor.user:
+    perm = Permission.objects.filter(
+        content_type__app_label="website", codename=codename
+    ).first()
+    for editor in User.objects.filter(
+        Q(user_permissions=perm)
+        | Q(groups__permissions=perm)
+        | Q(is_superuser=True)
+    ):
+        if editor == document.owner or editor == request.user:
             continue
         access_right, created = AccessRight.objects.get_or_create(
             document_id=document_id,
-            holder_id=editor.user.id,
+            holder_id=editor.id,
             holder_type=user_ct,
             defaults={
                 "rights": "write",
@@ -150,15 +162,13 @@ def submit_doc(request):
         if not created and access_right.rights != "write":
             access_right.rights = "write"
             access_right.save()
-        if editor.user != request.user:
-            emails.send_submit_notification(
-                document.title,
-                link,
-                request.POST.get("message"),
-                editor.user.readable_name,
-                editor.user.email,
-            )
-
+        emails.send_submit_notification(
+            document.title,
+            link,
+            request.POST.get("message"),
+            editor.readable_name,
+            editor.email,
+        )
     response["status"] = publication.status
     return JsonResponse(response, status=status)
 
@@ -170,7 +180,6 @@ def reject_doc(request):
     if not (
         request.user.has_perm("website.add_publication")
         or request.user.has_perm("website.change_publication")
-        or models.Editor.objects.filter(user=request.user).first()
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
@@ -188,10 +197,7 @@ def reject_doc(request):
         # Access forbidden
         return HttpResponse("Missing document access rights", status=403)
     status = 200
-    if (
-        request.user.has_perm("website.add_publication")
-        or models.Editor.objects.filter(user=request.user).first()
-    ):
+    if request.user.has_perm("website.add_publication"):
         publication, created = models.Publication.objects.get_or_create(
             document_id=document_id,
             defaults={"submitter": request.user, "status": "rejected"},
@@ -236,7 +242,6 @@ def review_doc(request):
     if not (
         request.user.has_perm("website.add_publication")
         or request.user.has_perm("website.change_publication")
-        or models.Editor.objects.filter(user=request.user).first()
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
@@ -254,10 +259,7 @@ def review_doc(request):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
     status = 200
-    if (
-        request.user.has_perm("website.add_publication")
-        or models.Editor.objects.filter(user=request.user).first()
-    ):
+    if request.user.has_perm("website.add_publication"):
         publication, _created = models.Publication.objects.get_or_create(
             document_id=document_id,
             defaults={"submitter": request.user, "status": "unsubmitted"},
@@ -298,7 +300,6 @@ def publish_doc(request):
     if not (
         request.user.has_perm("website.add_publication")
         or request.user.has_perm("website.change_publication")
-        or models.Editor.objects.filter(user=request.user).first()
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
@@ -316,10 +317,7 @@ def publish_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing document access rights", status=403)
-    if (
-        request.user.has_perm("website.add_publication")
-        or models.Editor.objects.filter(user=request.user).first()
-    ):
+    if request.user.has_perm("website.add_publication"):
         publication, created = models.Publication.objects.get_or_create(
             document_id=document_id,
             defaults={"submitter_id": request.user.id},
