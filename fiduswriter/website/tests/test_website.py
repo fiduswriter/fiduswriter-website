@@ -9,8 +9,7 @@ from testing.testcases import LiveTornadoTestCase
 from testing.selenium_helper import SeleniumHelper
 
 from django.core import mail
-
-from website import models
+from django.contrib.auth.models import Group
 
 
 class WebsiteTest(LiveTornadoTestCase, SeleniumHelper):
@@ -47,7 +46,8 @@ class WebsiteTest(LiveTornadoTestCase, SeleniumHelper):
             email="editor@sciencenewsportal.com",
             passtext="otter1",
         )
-        models.Editor.objects.create(user=self.editor)
+        editor_group = Group.objects.get(name="Website Editors")
+        self.editor.groups.add(editor_group)
 
     def test_website(self):
         self.login_user(self.user, self.driver, self.client)
@@ -209,7 +209,7 @@ class WebsiteTest(LiveTornadoTestCase, SeleniumHelper):
         # Write a second article.
         self.login_user(self.user, self.driver, self.client)
         self.driver.get(self.base_url + "/documents/")
-        # Create news article 1
+        # Create news article 2
         WebDriverWait(self.driver, self.wait_time).until(
             EC.element_to_be_clickable(
                 (By.CSS_SELECTOR, ".new_document button")

@@ -241,7 +241,6 @@ export class EditorWebsite {
                 authors.push(author)
             }
         }
-        console.log({authors})
         const keywords = article.content.filter(
             part => part.attrs.metadata === "keywords" && !part.attrs.hidden
         ).map(
