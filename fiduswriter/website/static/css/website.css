@@ -6,8 +6,7 @@ body {
     background-color: white;
     font-size: 12pt;
     min-width: initial;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden auto;
     max-height: 100vh;
     width: initial;
     height: initial;
@@ -34,7 +33,6 @@ nav.header * + * {
     padding-left: 15px;
     margin-left: 15px;
 }
-
 
 nav.header + div#body {
     margin-top: 28px;
@@ -152,8 +150,6 @@ div.filters div.filter span.author.selected {
     color: white;
 }
 
-
-
 div.articles a.article {
     color: black;
     border-bottom: 1px dotted #cecece;
@@ -164,7 +160,6 @@ div.articles a.article {
 div.articles a.article:hover {
     background-color: #cecece;
 }
-
 
 div.keywords div.keyword {
     display: inline-block;
@@ -204,9 +199,8 @@ div.articles a.article div.article-authors div.author {
 }
 
 div.articles a.article div.article-authors div.author + div.author::before {
-    content: ', ';
+    content: ", ";
 }
-
 
 div.abstract {
     font-size: 12pt;

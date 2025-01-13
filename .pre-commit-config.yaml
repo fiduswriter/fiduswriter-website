@@ -1,93 +1,37 @@
-default_language_version:
-  python: python3.11
 repos:
-  - repo: https://github.com/psf/black
-    rev: 22.3.0
-    hooks:
-      - id: black
-        args: [--line-length=79]
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
-    hooks:
-      - id: check-ast
-      - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: detect-private-key
-      - id: check-added-large-files
-      - id: check-symlinks
-      - id: check-toml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-      - id: mixed-line-ending
-        args: [--fix=lf]
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.0.1
-    hooks:
-      - id: reorder-python-imports
-        args:
-          - --py3-plus
-          - --application-directories=.:src
-        exclude: migrations/
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-check-mock-methods
-      - id: python-no-eval
-      - id: python-no-log-warn
-      - id: rst-backticks
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.1
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py310-plus
-        exclude: migrations/
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.4.0
-    hooks:
-      - id: django-upgrade
-        args:
-          - --target-version=4.0
-  - repo: https://github.com/asottile/yesqa
-    rev: v1.3.0
-    hooks:
-      -   id: yesqa
-  - repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.2.2
-    hooks:
-      -   id: add-trailing-comma
-          args:
-            - --py36-plus
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v1.2.5
-    hooks:
-      -   id: pycln
-  - repo: https://github.com/pycqa/flake8
-    rev: 4.0.1
-    hooks:
-      - id: flake8
-        exclude: |
-          (?x)^(
-              .*/migrations/.*
-          )$
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-tidy-imports
-          - flake8-print
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.22.0
-    hooks:
-      - id: eslint
-        args: [--fix]
-        additional_dependencies:
-        - "eslint@8.22.0"
-        - "eslint-plugin-prettier@4.2.1"
-  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
-    rev: "0.0.2"
-    hooks:
-    -   id: stylelint
-        additional_dependencies:
-        - 'stylelint@14.16.1'
-        - 'stylelint-config-standard@29.0.0'
+    - repo: https://github.com/psf/black-pre-commit-mirror
+      rev: 24.10.0
+      hooks:
+          - id: black
+            args: [--line-length=79]
+            language_version: python3.13
+    - repo: https://github.com/pycqa/flake8
+      rev: '7.1.1'
+      hooks:
+         - id: flake8
+           entry: flake8 --extend-ignore E203,E501
+    - repo: https://github.com/biomejs/pre-commit
+      rev: "75149f4e3b63c4df805860d7b04186d56dcbc05c"
+      hooks:
+          - id: biome-check
+            #entry: biome check --files-ignore-unknown=true --no-errors-on-unmatched --fix --unsafe
+            additional_dependencies: ["@biomejs/biome@1.9.2"]
+    - repo: https://github.com/awebdeveloper/pre-commit-stylelint
+      rev: "4200758f4cb2f53dd06898dd8dca35e4b8cfb785"
+      hooks:
+          - id: stylelint
+            additional_dependencies:
+                [
+                    "stylelint@15.11.0",
+                    "stylelint-config-standard@34.0.0",
+                    "stylelint-value-no-unknown-custom-properties@5.0.0",
+                    "postcss@8.4.32",
+                ]
+    - repo: local
+      hooks:
+          - id: django-import-resolver
+            name: Django Import Resolver
+            entry: node lint/django_import_resolver.js
+            language: node
+            files: \.js$
+            additional_dependencies: ["acorn@8.10.0"]

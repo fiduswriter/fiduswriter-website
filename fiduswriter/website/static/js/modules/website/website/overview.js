@@ -1,9 +1,7 @@
-import {whenReady, setDocTitle, getJson} from "../../common"
+import {getJson, setDocTitle, whenReady} from "../../common"
 import {overviewBodyTemplate, overviewContentTemplate} from "./templates"
 
-
 export class WebsiteOverview {
-
     constructor({app, user}) {
         this.app = app
         this.user = user
@@ -22,35 +20,31 @@ export class WebsiteOverview {
     }
 
     init() {
-        return this.getCSS().then(
-            () => whenReady()
-        ).then(
-            () => this.readSettingsFromCSS()
-        ).then(
-            () => this.getPublications()
-        ).then(
-            () => this.render()
-        ).then(
-            () => this.bind()
-        ).then(
-            () => this.loadMore()
-        )
+        return this.getCSS()
+            .then(() => whenReady())
+            .then(() => this.readSettingsFromCSS())
+            .then(() => this.getPublications())
+            .then(() => this.render())
+            .then(() => this.bind())
+            .then(() => this.loadMore())
     }
 
     getCSS() {
-        return getJson("/api/website/get_style/").then(
-            json => {
-                if (json.style) {
-                    const style = document.createElement("style")
-                    style.innerHTML = json.style
-                    document.head.appendChild(style)
-                }
+        return getJson("/api/website/get_style/").then(json => {
+            if (json.style) {
+                const style = document.createElement("style")
+                style.innerHTML = json.style
+                document.head.appendChild(style)
             }
-        )
+        })
     }
 
     readSettingsFromCSS() {
-        const postsPerPage = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--posts_per_page"))
+        const postsPerPage = parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue(
+                "--posts_per_page"
+            )
+        )
         if (!isNaN(postsPerPage)) {
             this.postsPerPage = postsPerPage
         }
@@ -61,28 +55,38 @@ export class WebsiteOverview {
             return false
         }
         this.currentlyDownloadingPublications = true
-        const url = this.postsPerPage ? `/api/website/list_publications/${this.postsPerPage}/${this.downloadedPage + 1}/` : "/api/website/list_publications/"
-        return getJson(url).then(
-            json => {
-                if (!this.downloadedPage) {
-                    this.siteName = json.site_name
-                    if (json.num_pages) {
-                        this.numPages = json.num_pages
-                    }
+        const url = this.postsPerPage
+            ? `/api/website/list_publications/${this.postsPerPage}/${
+                  this.downloadedPage + 1
+              }/`
+            : "/api/website/list_publications/"
+        return getJson(url).then(json => {
+            if (!this.downloadedPage) {
+                this.siteName = json.site_name
+                if (json.num_pages) {
+                    this.numPages = json.num_pages
                 }
-                let keywords = [...this.keywords]
-                let authors = [...this.authors]
-                json.publications.forEach(publication => {
-                    keywords = keywords.concat(publication.keywords)
-                    authors = authors.concat(publication.authors.map(author => `${author.firstname}${author.lastname ? ` ${author.lastname}` : ""}`))
-                })
-                this.publications = this.filteredPublications = this.publications.concat(json.publications)
-                this.keywords = [...new Set(keywords)]
-                this.authors = [...new Set(authors)]
-                this.downloadedPage += 1
-                this.currentlyDownloadingPublications = false
             }
-        )
+            let keywords = [...this.keywords]
+            let authors = [...this.authors]
+            json.publications.forEach(publication => {
+                keywords = keywords.concat(publication.keywords)
+                authors = authors.concat(
+                    publication.authors.map(
+                        author =>
+                            `${author.firstname}${
+                                author.lastname ? ` ${author.lastname}` : ""
+                            }`
+                    )
+                )
+            })
+            this.publications = this.filteredPublications =
+                this.publications.concat(json.publications)
+            this.keywords = [...new Set(keywords)]
+            this.authors = [...new Set(authors)]
+            this.downloadedPage += 1
+            this.currentlyDownloadingPublications = false
+        })
     }
 
     render() {
@@ -139,7 +143,6 @@ export class WebsiteOverview {
             }
             this.applyFilters()
             this.renderBody()
-
         })
         this.dom.addEventListener("scroll", () => {
             this.loadMore()
@@ -147,23 +150,35 @@ export class WebsiteOverview {
     }
 
     loadMore() {
-        if (this.dom.scrollTop + this.dom.clientHeight >= this.dom.scrollHeight) {
+        if (
+            this.dom.scrollTop + this.dom.clientHeight >=
+            this.dom.scrollHeight
+        ) {
             if (this.numPages && this.numPages > this.downloadedPage) {
-                this.getPublications().then(
-                    () => this.rerenderContent()
-                ).then(
-                    () => this.loadMore()
-                )
+                this.getPublications()
+                    .then(() => this.rerenderContent())
+                    .then(() => this.loadMore())
             }
         }
     }
 
     applyFilters() {
         this.filteredPublications = this.publications.filter(publication => {
-            if (this.filters.author && !publication.authors.find(author => `${author.firstname}${author.lastname ? ` ${author.lastname}` : ""}` === this.filters.author)) {
+            if (
+                this.filters.author &&
+                !publication.authors.find(
+                    author =>
+                        `${author.firstname}${
+                            author.lastname ? ` ${author.lastname}` : ""
+                        }` === this.filters.author
+                )
+            ) {
                 return false
             }
-            if (this.filters.keyword && !publication.keywords.includes(this.filters.keyword)) {
+            if (
+                this.filters.keyword &&
+                !publication.keywords.includes(this.filters.keyword)
+            ) {
                 return false
             }
             return true

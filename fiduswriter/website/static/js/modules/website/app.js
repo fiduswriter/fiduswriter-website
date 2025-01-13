@@ -7,7 +7,10 @@ export class AppWebsite {
         this.app.routes[""] = {
             app: "website",
             requireLogin: false,
-            open: () => import(/* webpackPrefetch: true */"./website/overview").then(({WebsiteOverview}) => new WebsiteOverview(this.app.config))
+            open: () =>
+                import(/* webpackPrefetch: true */ "./website/overview").then(
+                    ({WebsiteOverview}) => new WebsiteOverview(this.app.config)
+                )
         }
         this.app.routes["article"] = {
             app: "website",
@@ -17,7 +20,12 @@ export class AppWebsite {
                 if (!id.length) {
                     id = pathnameParts.pop()
                 }
-                return import(/* webpackPrefetch: true */"./website/article").then(({WebsiteArticle}) => new WebsiteArticle(this.app.config, id))
+                return import(
+                    /* webpackPrefetch: true */ "./website/article"
+                ).then(
+                    ({WebsiteArticle}) =>
+                        new WebsiteArticle(this.app.config, id)
+                )
             }
         }
     }

@@ -4,7 +4,9 @@ export class MenuWebsite {
     }
 
     init() {
-        const documentsItem = this.menu.navItems.find(item => item.id === "documents")
+        const documentsItem = this.menu.navItems.find(
+            item => item.id === "documents"
+        )
         if (!documentsItem) {
             return
         }

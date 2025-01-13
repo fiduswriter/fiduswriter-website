@@ -1,9 +1,7 @@
-import {whenReady, ensureCSS, setDocTitle, getJson} from "../../common"
+import {ensureCSS, getJson, setDocTitle, whenReady} from "../../common"
 import {articleBodyTemplate} from "./templates"
 
-
 export class WebsiteArticle {
-
     constructor({app, user}, id) {
         this.app = app
         this.user = user
@@ -16,13 +14,10 @@ export class WebsiteArticle {
     }
 
     init() {
-        return this.getPublication().then(
-            () => whenReady()
-        ).then(
-            () => this.render()
-        ).then(
-            () => this.bind()
-        )
+        return this.getPublication()
+            .then(() => whenReady())
+            .then(() => this.render())
+            .then(() => this.bind())
     }
 
     getPublication() {
@@ -42,9 +37,7 @@ export class WebsiteArticle {
             siteName: this.siteName,
             publication: this.publication
         })
-        ensureCSS([
-            staticUrl("css/document.css")
-        ])
+        ensureCSS([staticUrl("css/document.css")])
         document.body = this.dom
         setDocTitle(this.publication.title, this.app)
     }
@@ -69,14 +62,19 @@ export class WebsiteArticle {
             const linkRef = this.dom.querySelector(href)
             if (linkRef) {
                 if (this.popUp) {
-                    if (this.popUp.firstElementChild !== this.popUp.lastElementChild) {
+                    if (
+                        this.popUp.firstElementChild !==
+                        this.popUp.lastElementChild
+                    ) {
                         this.popUp.removeChild(this.popUp.lastElementChild)
                     }
                 } else {
                     this.popUp = document.createElement("div")
                     this.popUp.classList.add("popup")
                     this.popUp.style.position = "absolute"
-                    this.popUp.style.top = `${event.clientY + this.dom.scrollTop + 10}px`
+                    this.popUp.style.top = `${
+                        event.clientY + this.dom.scrollTop + 10
+                    }px`
                     this.popUp.style.left = `${event.clientX + 10}px`
                 }
                 this.popUp.innerHTML += linkRef.outerHTML
