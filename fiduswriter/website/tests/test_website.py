@@ -5,14 +5,14 @@ from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from testing.testcases import LiveTornadoTestCase
+from channels.testing import ChannelsLiveServerTestCase
 from testing.selenium_helper import SeleniumHelper
 
 from django.core import mail
 from django.contrib.auth.models import Group
 
 
-class WebsiteTest(LiveTornadoTestCase, SeleniumHelper):
+class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
     fixtures = [
         "initial_documenttemplates.json",
         "initial_styles.json",
