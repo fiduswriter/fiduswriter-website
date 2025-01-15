@@ -61,8 +61,8 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         WebDriverWait(self.driver, self.wait_time).until(
             EC.presence_of_element_located((By.CLASS_NAME, "editor-toolbar"))
         )
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").send_keys(
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").send_keys(
             "News article 1"
         )
         self.driver.find_element(
@@ -129,8 +129,8 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.login_user(self.user, self.driver, self.client)
         document_link = self.find_urls(notify_user_email.body)[0]
         self.driver.get(document_link)
-        self.driver.find_element(By.CSS_SELECTOR, ".article-body").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".article-body").send_keys(
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-body").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-body").send_keys(
             "An updated body."
         )
         self.driver.find_element(
@@ -218,12 +218,12 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         WebDriverWait(self.driver, self.wait_time).until(
             EC.presence_of_element_located((By.CLASS_NAME, "editor-toolbar"))
         )
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").send_keys(
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").send_keys(
             "News article 2"
         )
-        self.driver.find_element(By.CSS_SELECTOR, ".article-body").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".article-body").send_keys(
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-body").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-body").send_keys(
             "This article has a real body."
         )
         self.driver.find_element(
@@ -303,8 +303,8 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         WebDriverWait(self.driver, self.wait_time).until(
             EC.presence_of_element_located((By.CLASS_NAME, "editor-toolbar"))
         )
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").click()
-        self.driver.find_element(By.CSS_SELECTOR, ".article-title").send_keys(
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").click()
+        self.driver.find_element(By.CSS_SELECTOR, ".doc-title").send_keys(
             "News article 3"
         )
         self.driver.find_element(
