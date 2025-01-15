@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 from tempfile import mkdtemp
 
 from selenium.webdriver.common.by import By
@@ -7,16 +8,23 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from channels.testing import ChannelsLiveServerTestCase
 from testing.selenium_helper import SeleniumHelper
+from testing.mail import get_outbox, empty_outbox, delete_outbox
 
-from django.core import mail
 from django.contrib.auth.models import Group
+from django.test import override_settings
 
 
+MAIL_STORAGE_NAME = "website"
+
+
+@override_settings(MAIL_STORAGE_NAME=MAIL_STORAGE_NAME)
+@override_settings(EMAIL_BACKEND="testing.mail.EmailBackend")
 class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
     fixtures = [
         "initial_documenttemplates.json",
         "initial_styles.json",
     ]
+    login_page = "/documents/"
 
     @classmethod
     def setUpClass(cls):
@@ -33,6 +41,7 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
     def tearDownClass(cls):
         cls.driver.quit()
         os.rmdir(cls.download_dir)
+        delete_outbox(MAIL_STORAGE_NAME)
         super().tearDownClass()
 
     def setUp(self):
@@ -48,6 +57,18 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         )
         editor_group = Group.objects.get(name="Website Editors")
         self.editor.groups.add(editor_group)
+
+    def tearDown(self):
+        self.driver.execute_script("window.localStorage.clear()")
+        self.driver.execute_script("window.sessionStorage.clear()")
+        super().tearDown()
+        empty_outbox(MAIL_STORAGE_NAME)
+        if "coverage" in sys.modules.keys():
+            # Cool down
+            time.sleep(self.wait_time / 3)
+
+    def outbox(self):
+        return get_outbox(MAIL_STORAGE_NAME)
 
     def test_website(self):
         self.login_user(self.user, self.driver, self.client)
@@ -79,13 +100,15 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(submission_message)
-        emails_before_submission = len(mail.outbox)
+        emails_before_submission = len(self.outbox())
         self.driver.find_element(By.CSS_SELECTOR, "button.fw-dark").click()
         time.sleep(1)
         # Check that email has been sent to editor
-        emails_after_submission = len(mail.outbox)
-        assert emails_after_submission == (emails_before_submission + 1)
-        notify_editor_email = mail.outbox[-1]
+        emails_after_submission = len(self.outbox())
+        self.assertEqual(
+            emails_after_submission, (emails_before_submission + 1)
+        )
+        notify_editor_email = self.outbox()[-1]
         assert self.editor.email in notify_editor_email.to
         assert submission_message in notify_editor_email.body
         assert "submitted to be published" in notify_editor_email.body
@@ -112,15 +135,15 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(editor_message)
-        emails_before_ask_for_changes = len(mail.outbox)
+        emails_before_ask_for_changes = len(self.outbox())
         self.driver.find_elements(By.CSS_SELECTOR, "button.fw-dark")[1].click()
         time.sleep(1)
         # Check that email has been sent to user
-        emails_after_ask_for_changes = len(mail.outbox)
+        emails_after_ask_for_changes = len(self.outbox())
         assert emails_after_ask_for_changes == (
             emails_before_ask_for_changes + 1
         )
-        notify_user_email = mail.outbox[-1]
+        notify_user_email = self.outbox()[-1]
         assert self.user.email in notify_user_email.to
         assert editor_message in notify_user_email.body
         assert "need to change some things" in notify_user_email.body
@@ -152,13 +175,13 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(resubmission_message)
-        emails_before_resubmission = len(mail.outbox)
+        emails_before_resubmission = len(self.outbox())
         self.driver.find_element(By.CSS_SELECTOR, "button.fw-dark").click()
         time.sleep(1)
         # Check that email has been sent to editor
-        emails_after_resubmission = len(mail.outbox)
+        emails_after_resubmission = len(self.outbox())
         assert emails_after_resubmission == (emails_before_resubmission + 1)
-        notify_editor_again_email = mail.outbox[-1]
+        notify_editor_again_email = self.outbox()[-1]
         assert self.editor.email in notify_editor_again_email.to
         assert resubmission_message in notify_editor_again_email.body
         assert "submitted to be published" in notify_editor_again_email.body
@@ -187,13 +210,13 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(rejection_message)
-        emails_before_rejection = len(mail.outbox)
+        emails_before_rejection = len(self.outbox())
         self.driver.find_elements(By.CSS_SELECTOR, "button.fw-dark")[2].click()
         time.sleep(1)
         # Check that email has been sent to editor
-        emails_after_rejection = len(mail.outbox)
+        emails_after_rejection = len(self.outbox())
         assert emails_after_rejection == (emails_before_rejection + 1)
-        notify_user_again_email = mail.outbox[-1]
+        notify_user_again_email = self.outbox()[-1]
         assert self.user.email in notify_user_again_email.to
         assert rejection_message in notify_user_again_email.body
         assert "reviewed and rejected" in notify_user_again_email.body
@@ -240,13 +263,13 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(submission_message)
-        emails_before_submission = len(mail.outbox)
+        emails_before_submission = len(self.outbox())
         self.driver.find_element(By.CSS_SELECTOR, "button.fw-dark").click()
         time.sleep(1)
         # Check that email has been sent to editor
-        emails_after_submission = len(mail.outbox)
+        emails_after_submission = len(self.outbox())
         assert emails_after_submission == (emails_before_submission + 1)
-        notify_editor_email = mail.outbox[-1]
+        notify_editor_email = self.outbox()[-1]
         assert self.editor.email in notify_editor_email.to
         assert submission_message in notify_editor_email.body
         assert "submitted to be published" in notify_editor_email.body
@@ -273,13 +296,13 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
         self.driver.find_element(
             By.CSS_SELECTOR, "textarea#submission-message"
         ).send_keys(editor_message)
-        emails_before_publishing = len(mail.outbox)
+        emails_before_publishing = len(self.outbox())
         self.driver.find_elements(By.CSS_SELECTOR, "button.fw-dark")[0].click()
         time.sleep(1)
         # Check that email has been sent to user
-        emails_after_publishing = len(mail.outbox)
+        emails_after_publishing = len(self.outbox())
         assert emails_after_publishing == (emails_before_publishing + 1)
-        notify_user_email = mail.outbox[-1]
+        notify_user_email = self.outbox()[-1]
         assert self.user.email in notify_user_email.to
         assert editor_message in notify_user_email.body
 
@@ -314,11 +337,11 @@ class WebsiteTest(SeleniumHelper, ChannelsLiveServerTestCase):
             By.CSS_SELECTOR,
             "span.fw-pulldown-item[title='Publish, reject or request changes']",
         ).click()
-        emails_before_publishing = len(mail.outbox)
+        emails_before_publishing = len(self.outbox())
         self.driver.find_elements(By.CSS_SELECTOR, "button.fw-dark")[0].click()
         time.sleep(1)
         # Check that no email has been sent to user
-        emails_after_publishing = len(mail.outbox)
+        emails_after_publishing = len(self.outbox())
         assert emails_after_publishing == emails_before_publishing
 
         # Check that article does show on front page
