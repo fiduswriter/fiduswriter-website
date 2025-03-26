@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fiduswriter-website"
-version = "4.0.0rc1"
+version = "4.0.0"
 description = "A Fidus Writer plugin to allow publishing articles publically directly."
 readme = "README.md"
 license = {text = "AGPL-3.0-or-later"}
