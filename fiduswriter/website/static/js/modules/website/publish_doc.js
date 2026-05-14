@@ -25,14 +25,17 @@ export class PublishDoc extends HTMLExporter {
         return returnValue
     }
     download(blob) {
-        return postJson(this.url, {
-            doc_id: this.doc.id,
-            title: this.docTitle,
-            authors: JSON.stringify(this.authors),
-            keywords: this.keywords,
-            abstract: this.abstract,
-            "html.zip": {file: blob, filename: "html.zip"},
-            message: this.message
-        })
+        return postJson(
+            this.url,
+            {
+                doc_id: this.doc.id,
+                title: this.docTitle,
+                authors: this.authors,
+                keywords: this.keywords,
+                abstract: this.abstract,
+                message: this.message
+            },
+            {"html.zip": {file: blob, filename: "html.zip"}}
+        )
     }
 }

@@ -1,4 +1,3 @@
-import json
 import time
 import zipfile
 
@@ -25,7 +24,7 @@ from . import models
 @require_POST
 def get_doc_info(request):
     response = {}
-    document_id = int(request.POST.get("doc_id"))
+    document_id = request.JSON.get("doc_id")
     document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
@@ -74,7 +73,7 @@ def get_doc_info(request):
 @require_POST
 def submit_doc(request):
     response = {}
-    document_id = int(request.POST.get("doc_id"))
+    document_id = request.JSON.get("doc_id")
     status = 200
     document = Document.objects.filter(id=document_id).first()
     if not document:
@@ -98,10 +97,10 @@ def submit_doc(request):
         and request.user.has_perm("website.change_publication")
     ):
         # The user has permission to publish the document immediately.
-        publication.title = request.POST.get("title")
-        publication.abstract = request.POST.get("abstract")
-        publication.authors = json.loads(request.POST.get("authors"))
-        publication.keywords = request.POST.getlist("keywords[]")
+        publication.title = request.JSON.get("title")
+        publication.abstract = request.JSON.get("abstract")
+        publication.authors = request.JSON.get("authors")
+        publication.keywords = request.JSON.get("keywords")
         # Delete all existing assets
         models.PublicationAsset.objects.filter(
             publication=publication,
@@ -112,7 +111,7 @@ def submit_doc(request):
         publication.status = "published"
         message = {
             "type": "publish",
-            "message": request.POST.get("message"),
+            "message": request.JSON.get("message"),
             "user": request.user.readable_name,
             "time": time.time(),
         }
@@ -123,7 +122,7 @@ def submit_doc(request):
         return JsonResponse(response, status=status)
     message = {
         "type": "submit",
-        "message": request.POST.get("message"),
+        "message": request.JSON.get("message"),
         "user": request.user.readable_name,
         "time": time.time(),
     }
@@ -165,7 +164,7 @@ def submit_doc(request):
         emails.send_submit_notification(
             document.title,
             link,
-            request.POST.get("message"),
+            request.JSON.get("message"),
             editor.readable_name,
             editor.email,
         )
@@ -183,7 +182,7 @@ def reject_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    document_id = int(request.POST.get("doc_id"))
+    document_id = request.JSON.get("doc_id")
     document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
@@ -214,7 +213,7 @@ def reject_doc(request):
         publication.status = "rejected"
     message = {
         "type": "reject",
-        "message": request.POST.get("message"),
+        "message": request.JSON.get("message"),
         "user": request.user.readable_name,
         "time": time.time(),
     }
@@ -228,7 +227,7 @@ def reject_doc(request):
             HttpRequest.build_absolute_uri(
                 request, document.get_absolute_url()
             ),
-            request.POST.get("message"),
+            request.JSON.get("message"),
             document.owner.readable_name,
             document.owner.email,
         )
@@ -245,7 +244,7 @@ def review_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    document_id = int(request.POST.get("doc_id"))
+    document_id = request.JSON.get("doc_id")
     document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
@@ -273,7 +272,7 @@ def review_doc(request):
             return HttpResponse("Missing access rights", status=403)
     message = {
         "type": "review",
-        "message": request.POST.get("message"),
+        "message": request.JSON.get("message"),
         "user": request.user.readable_name,
         "time": time.time(),
     }
@@ -286,7 +285,7 @@ def review_doc(request):
             HttpRequest.build_absolute_uri(
                 request, document.get_absolute_url()
             ),
-            request.POST.get("message"),
+            request.JSON.get("message"),
             document.owner.readable_name,
             document.owner.email,
         )
@@ -303,7 +302,7 @@ def publish_doc(request):
     ):
         # Access forbidden
         return HttpResponse("Missing access rights", status=403)
-    document_id = int(request.POST.get("doc_id"))
+    document_id = request.JSON.get("doc_id")
     document = Document.objects.filter(id=document_id).first()
     if not document:
         return HttpResponse("Not found", status=404)
@@ -329,10 +328,10 @@ def publish_doc(request):
         if not publication:
             # Access forbidden
             return HttpResponse("Missing access rights", status=403)
-    publication.title = request.POST.get("title")
-    publication.abstract = request.POST.get("abstract")
-    publication.authors = json.loads(request.POST.get("authors"))
-    publication.keywords = request.POST.getlist("keywords[]")
+    publication.title = request.JSON.get("title")
+    publication.abstract = request.JSON.get("abstract")
+    publication.authors = request.JSON.get("authors")
+    publication.keywords = request.JSON.get("keywords")
     # Delete all existing assets
     models.PublicationAsset.objects.filter(publication=publication).delete()
     html_zip = zipfile.ZipFile(request.FILES.get("html.zip"))
@@ -341,7 +340,7 @@ def publish_doc(request):
     publication.status = "published"
     message = {
         "type": "publish",
-        "message": request.POST.get("message"),
+        "message": request.JSON.get("message"),
         "user": request.user.readable_name,
         "time": time.time(),
     }
@@ -381,7 +380,7 @@ def publish_doc(request):
             HttpRequest.build_absolute_uri(
                 request, document.get_absolute_url()
             ),
-            request.POST.get("message"),
+            request.JSON.get("message"),
             document.owner.readable_name,
             document.owner.email,
         )
