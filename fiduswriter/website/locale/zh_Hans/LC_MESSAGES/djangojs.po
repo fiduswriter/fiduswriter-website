@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "无法获取提交信息。"
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "网站"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "发布到网站"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "发布"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "提交"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "发布、拒绝或请求更改"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "提交发布到网站"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "在网站上查看"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "转到网站上最新发布的版本。"
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "提交要在网站上发布的文件"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "已提交供出版的文件。"
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "要求改变"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "拒绝"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "发布、拒绝或要求更改"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "已发布的文档。"
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "文件的发布已被拒绝。"
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr "文件已经过审查。更改请求已发送。"
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "已提交"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "已发表"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "已审核"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "被拒绝"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "未知"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "未提交"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "重新提交"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "日志"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "经过"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "地位"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "信息"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "编辑"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "关键词"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "作者"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "菲杜斯作家"

@@ -1,0 +1,83 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/emails.py:16 website/emails.py:68 website/emails.py:118
+#: website/emails.py:166
+msgid "Untitled"
+msgstr "Без заглавие"
+
+#: website/emails.py:19
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public."
+msgstr ""
+"е изпратено за публикуване. Вие или друг редактор трябва да го одобрите, "
+"преди да стане достъпен за широката публика."
+
+#: website/emails.py:26
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public.</p>"
+msgstr ""
+"е изпратено за публикуване. Вие или друг редактор трябва да го одобрите, "
+"преди да стане достъпен за широката публика.</p>"
+
+#: website/emails.py:36 website/emails.py:86 website/emails.py:134
+#: website/emails.py:182
+msgid "Access the Document"
+msgstr "Достъп до документа"
+
+#: website/emails.py:37 website/emails.py:87 website/emails.py:135
+#: website/emails.py:183
+msgid "Document"
+msgstr "Документ"
+
+#: website/emails.py:71
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done. "
+msgstr ""
+"е прегледан. Вие или друг автор трябва да промените някои неща, преди да "
+"може да бъде публикуван. Моля, изпратете го отново, след като сте готови. "
+
+#: website/emails.py:77
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done.</p>"
+msgstr ""
+"е прегледан. Вие или друг автор трябва да промените някои неща, преди да "
+"може да бъде публикуван. Моля, изпратете го отново, след като сте "
+"готови.</p>"
+
+#: website/emails.py:121
+msgid "been reviewed and rejected. "
+msgstr "е прегледан и отхвърлен. "
+
+#: website/emails.py:126
+msgid "been reviewed and rejected.</p>"
+msgstr "е прегледан и отхвърлен.</p>"
+
+#: website/emails.py:169
+msgid "been reviewed and published. "
+msgstr "е прегледан и публикуван. "
+
+#: website/emails.py:174
+msgid "been reviewed and published.</p>"
+msgstr "прегледани и публикувани.</p>"

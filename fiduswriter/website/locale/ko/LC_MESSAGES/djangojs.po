@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "제출 정보를 얻을 수 없습니다."
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "웹사이트"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "웹사이트에 게시"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "게시"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "제출하다"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "게시, 거부 또는 변경 요청"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "웹사이트에 게시하기 위해 제출"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "웹사이트에서 보기"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "웹사이트에 마지막으로 게시된 버전으로 이동합니다."
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "웹사이트에 게시할 문서 제출"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "출판을 위해 제출된 문서입니다."
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "변경 사항을 요청하세요"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "거부하다"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "게시, 거부 또는 변경 요청"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "출판된 문서."
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "문서 게시가 거부되었습니다."
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr "문서가 검토되었습니다. 변경 요청이 전송되었습니다."
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "제출된"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "게시됨"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "검토됨"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "거부됨"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "알려지지 않은"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "제출되지 않음"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "다시 제출됨"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "통나무"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "~에 의해"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "상태"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "메시지"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "편집하다"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "키워드"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "저자"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "피더스 작가"

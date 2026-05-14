@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "Nepodařilo se získat informace o odeslání."
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "webové stránky"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "Publikovat na webu"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "Publikovat"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "Předložit"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "Publikovat, odmítat nebo požadovat změny"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "Odeslat ke zveřejnění na webu"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "Zobrazit na webu"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "Přejděte na poslední zveřejněnou verzi na webu."
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "Odešlete dokument ke zveřejnění na webu"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "Dokument předložen ke zveřejnění."
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "Požádejte o změny"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "Odmítnout"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "Publikovat, odmítnout nebo požádat o změny"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "Publikovaný dokument."
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "Zveřejnění dokumentu bylo zamítnuto."
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr "Dokument byl zkontrolován. Žádost o změny byla odeslána."
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "Odesláno"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "Publikováno"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "Zkontrolováno"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "Odmítnuto"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "Neznámý"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "Neodevzdáno"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "Znovu odesláno"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "Log"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "podle"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "Postavení"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "Zpráva"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "Upravit"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "Klíčová slova"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "Autoři"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "Spisovatel Fidus"

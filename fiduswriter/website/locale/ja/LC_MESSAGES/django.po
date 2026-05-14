@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/emails.py:16 website/emails.py:68 website/emails.py:118
+#: website/emails.py:166
+msgid "Untitled"
+msgstr "無題"
+
+#: website/emails.py:19
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public."
+msgstr "出版するために提出されました。一般にアクセスできるようにするには、あなたまたは他の編集者が承認する必要があります。"
+
+#: website/emails.py:26
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public.</p>"
+msgstr "出版するために提出されました。一般公開される前に、あなたまたは他の編集者が承認する必要があります。</p>"
+
+#: website/emails.py:36 website/emails.py:86 website/emails.py:134
+#: website/emails.py:182
+msgid "Access the Document"
+msgstr "ドキュメントにアクセスする"
+
+#: website/emails.py:37 website/emails.py:87 website/emails.py:135
+#: website/emails.py:183
+msgid "Document"
+msgstr "書類"
+
+#: website/emails.py:71
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done. "
+msgstr "見直されました。公開する前に、あなたまたは別の作成者がいくつかの点を変更する必要があります。完了したら再送信してください。 "
+
+#: website/emails.py:77
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done.</p>"
+msgstr "見直されました。公開する前に、あなたまたは別の作成者がいくつかの点を変更する必要があります。完了したら再送信してください。</p>"
+
+#: website/emails.py:121
+msgid "been reviewed and rejected. "
+msgstr "審査されて拒否されました。 "
+
+#: website/emails.py:126
+msgid "been reviewed and rejected.</p>"
+msgstr "審査され拒否されました。</p>"
+
+#: website/emails.py:169
+msgid "been reviewed and published. "
+msgstr "審査され、出版されました。 "
+
+#: website/emails.py:174
+msgid "been reviewed and published.</p>"
+msgstr "レビューされ、公開されました。</p>"

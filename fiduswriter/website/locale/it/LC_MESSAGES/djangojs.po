@@ -1,0 +1,153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "Impossibile ottenere informazioni sull'invio."
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "Sito web"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "Pubblica sul sito web"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "Pubblicare"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "Invia"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "Pubblica, rifiuta o richiedi modifiche"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "Invia per la pubblicazione sul sito web"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "Visualizza sul sito web"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "Vai all'ultima versione pubblicata sul sito."
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "Inviare il documento da pubblicare sul sito"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "Documento presentato per la pubblicazione."
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "Richiedi modifiche"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "Rifiutare"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "Pubblica, rifiuta o chiedi modifiche"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "Documento pubblicato."
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "La pubblicazione del documento è stata respinta."
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr ""
+"Il documento è stato esaminato. La richiesta di modifica è stata inviata."
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "Inviato"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "Pubblicato"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "Recensito"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "Respinto"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "Non inviato"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "Reinviato"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "Tronco d'albero"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "di"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "Stato"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "Messaggio"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "Modificare"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "Parole chiave"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "Autori"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "Fidus scrittore"

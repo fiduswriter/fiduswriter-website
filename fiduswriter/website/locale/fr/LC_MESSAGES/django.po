@@ -1,0 +1,84 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: website/emails.py:16 website/emails.py:68 website/emails.py:118
+#: website/emails.py:166
+msgid "Untitled"
+msgstr "Sans titre"
+
+#: website/emails.py:19
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public."
+msgstr ""
+"été soumis pour publication. Vous ou un autre éditeur devez l'approuver "
+"avant qu'il ne soit rendu accessible au grand public."
+
+#: website/emails.py:26
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public.</p>"
+msgstr ""
+"été soumis pour publication. Vous ou un autre éditeur devez l'approuver "
+"avant qu'il ne soit rendu accessible au grand public.</p>"
+
+#: website/emails.py:36 website/emails.py:86 website/emails.py:134
+#: website/emails.py:182
+msgid "Access the Document"
+msgstr "Accéder au document"
+
+#: website/emails.py:37 website/emails.py:87 website/emails.py:135
+#: website/emails.py:183
+msgid "Document"
+msgstr "Document"
+
+#: website/emails.py:71
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done. "
+msgstr ""
+"été révisé. Vous ou un autre auteur devez modifier certaines choses avant de"
+" pouvoir le publier. Veuillez le soumettre à nouveau une fois que vous avez "
+"terminé. "
+
+#: website/emails.py:77
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done.</p>"
+msgstr ""
+"été révisé. Vous ou un autre auteur devez modifier certaines choses avant de"
+" pouvoir le publier. Veuillez le soumettre à nouveau une fois que vous avez "
+"terminé.</p>"
+
+#: website/emails.py:121
+msgid "been reviewed and rejected. "
+msgstr "été examinée et rejetée. "
+
+#: website/emails.py:126
+msgid "been reviewed and rejected.</p>"
+msgstr "été examiné et rejeté.</p>"
+
+#: website/emails.py:169
+msgid "been reviewed and published. "
+msgstr "été révisé et publié. "
+
+#: website/emails.py:174
+msgid "been reviewed and published.</p>"
+msgstr "été révisé et publié.</p>"

@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "Could not obtain submission info."
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "Website"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "Publish to website"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "Publish"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "Submit"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "Publish, reject or request changes"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "Submit for publishing to website"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "View on website"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "Go to the last published version on the website."
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "Submit document to be published on website"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "Submitted document for publication."
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "Ask for changes"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "Reject"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "Publish, reject or ask for changes"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "Published document."
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "Publication of document has been rejected."
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr "Document has been reviewed. Request for changes has been sent."
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "Submitted"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "Published"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "Reviewed"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "Rejected"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "Unknown"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "Unsubmitted"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "Resubmitted"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "Log"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "by"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "Status"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "Message"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "Edit"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "Keywords"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "Authors"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "Fidus Writer"

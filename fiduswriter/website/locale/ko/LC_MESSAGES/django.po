@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: website/emails.py:16 website/emails.py:68 website/emails.py:118
+#: website/emails.py:166
+msgid "Untitled"
+msgstr "제목 없음"
+
+#: website/emails.py:19
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public."
+msgstr "출판을 위해 제출되었습니다. 일반 대중이 액세스할 수 있으려면 귀하 또는 다른 편집자가 이를 승인해야 합니다."
+
+#: website/emails.py:26
+msgid ""
+"been submitted to be published. You or another editor need to approve it "
+"before it will be made accessible to the general public.</p>"
+msgstr "출판을 위해 제출되었습니다. 귀하 또는 다른 편집자가 이를 승인해야 일반 대중이 접근할 수 있습니다.</p>"
+
+#: website/emails.py:36 website/emails.py:86 website/emails.py:134
+#: website/emails.py:182
+msgid "Access the Document"
+msgstr "문서에 액세스"
+
+#: website/emails.py:37 website/emails.py:87 website/emails.py:135
+#: website/emails.py:183
+msgid "Document"
+msgstr "문서"
+
+#: website/emails.py:71
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done. "
+msgstr "검토되었습니다. 귀하 또는 다른 작성자가 게시되기 전에 몇 가지 사항을 변경해야 합니다. 완료 후 다시 제출해 주세요. "
+
+#: website/emails.py:77
+msgid ""
+"been reviewed. You or another author need to change some things before it "
+"can be published. Please resubmit it once you are done.</p>"
+msgstr ""
+"검토되었습니다. 귀하 또는 다른 작성자가 게시되기 전에 몇 가지 사항을 변경해야 합니다. 완료한 후 다시 제출해 주세요.</p>"
+
+#: website/emails.py:121
+msgid "been reviewed and rejected. "
+msgstr "검토를 거쳐 거부되었습니다. "
+
+#: website/emails.py:126
+msgid "been reviewed and rejected.</p>"
+msgstr "검토 후 거부되었습니다.</p>"
+
+#: website/emails.py:169
+msgid "been reviewed and published. "
+msgstr "검토 및 출판되었습니다. "
+
+#: website/emails.py:174
+msgid "been reviewed and published.</p>"
+msgstr "검토 및 게시되었습니다.</p>"

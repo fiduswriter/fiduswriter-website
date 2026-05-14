@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/static/js/modules/website/editor.js:31
+msgid "Could not obtain submission info."
+msgstr "Kunne ikke få indsendelsesoplysninger."
+
+#: website/static/js/modules/website/editor.js:50
+msgid "Website"
+msgstr "Hjemmeside"
+
+#: website/static/js/modules/website/editor.js:53
+msgid "Publish to website"
+msgstr "Udgiv på hjemmesiden"
+
+#: website/static/js/modules/website/editor.js:60
+#: website/static/js/modules/website/editor.js:164
+msgid "Publish"
+msgstr "Offentliggøre"
+
+#: website/static/js/modules/website/editor.js:61
+#: website/static/js/modules/website/editor.js:121
+msgid "Submit"
+msgstr "Indsend"
+
+#: website/static/js/modules/website/editor.js:65
+msgid "Publish, reject or request changes"
+msgstr "Offentliggør, afvis eller anmod om ændringer"
+
+#: website/static/js/modules/website/editor.js:66
+msgid "Submit for publishing to website"
+msgstr "Send til udgivelse på hjemmesiden"
+
+#: website/static/js/modules/website/editor.js:106
+msgid "View on website"
+msgstr "Se på hjemmesiden"
+
+#: website/static/js/modules/website/editor.js:109
+msgid "Go to the last published version on the website."
+msgstr "Gå til den sidst offentliggjorte version på hjemmesiden."
+
+#: website/static/js/modules/website/editor.js:139
+msgid "Submit document to be published on website"
+msgstr "Indsend dokument, der skal offentliggøres på hjemmesiden"
+
+#: website/static/js/modules/website/editor.js:156
+msgid "Submitted document for publication."
+msgstr "Indsendt dokument til offentliggørelse."
+
+#: website/static/js/modules/website/editor.js:174
+msgid "Ask for changes"
+msgstr "Bed om ændringer"
+
+#: website/static/js/modules/website/editor.js:184
+msgid "Reject"
+msgstr "Afvise"
+
+#: website/static/js/modules/website/editor.js:200
+msgid "Publish, reject or ask for changes"
+msgstr "Offentliggør, afvis eller bed om ændringer"
+
+#: website/static/js/modules/website/editor.js:331
+msgid "Published document."
+msgstr "Udgivet dokument."
+
+#: website/static/js/modules/website/editor.js:350
+msgid "Publication of document has been rejected."
+msgstr "Offentliggørelse af dokument er blevet afvist."
+
+#: website/static/js/modules/website/editor.js:364
+msgid "Document has been reviewed. Request for changes has been sent."
+msgstr "Dokumentet er blevet gennemgået. Anmodning om ændringer er sendt."
+
+#: website/static/js/modules/website/templates.js:4
+#: website/static/js/modules/website/templates.js:12
+msgid "Submitted"
+msgstr "Indsendt"
+
+#: website/static/js/modules/website/templates.js:5
+#: website/static/js/modules/website/templates.js:13
+msgid "Published"
+msgstr "Udgivet"
+
+#: website/static/js/modules/website/templates.js:6
+msgid "Reviewed"
+msgstr "Gennemgået"
+
+#: website/static/js/modules/website/templates.js:7
+#: website/static/js/modules/website/templates.js:14
+msgid "Rejected"
+msgstr "Afvist"
+
+#: website/static/js/modules/website/templates.js:11
+msgid "Unknown"
+msgstr "Ukendt"
+
+#: website/static/js/modules/website/templates.js:15
+msgid "Unsubmitted"
+msgstr "Ikke indsendt"
+
+#: website/static/js/modules/website/templates.js:16
+msgid "Resubmitted"
+msgstr "Genindsendt"
+
+#: website/static/js/modules/website/templates.js:25
+msgid "Log"
+msgstr "Log"
+
+#: website/static/js/modules/website/templates.js:36
+msgid "by"
+msgstr "ved"
+
+#: website/static/js/modules/website/templates.js:54
+msgid "Status"
+msgstr "Status"
+
+#: website/static/js/modules/website/templates.js:59
+msgid "Message"
+msgstr "Besked"
+
+#: website/static/js/modules/website/website/templates.js:90
+msgid "Edit"
+msgstr "Redigere"
+
+#: website/static/js/modules/website/website/templates.js:129
+msgid "Keywords"
+msgstr "Nøgleord"
+
+#: website/static/js/modules/website/website/templates.js:144
+msgid "Authors"
+msgstr "Forfattere"
+
+#: website/static/js/modules/website/website/templates.js:176
+msgid "Fidus Writer"
+msgstr "Fidus forfatter"
