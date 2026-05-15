@@ -4,18 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fiduswriter-website"
-version = "4.0.0"
+version = "4.1.0"
 description = "A Fidus Writer plugin to allow publishing articles publically directly."
 readme = "README.md"
-license = {text = "AGPL-3.0-or-later"}
+license = "AGPL-3.0-or-later"
 authors = [
   {email = "johannes@fiduswriter.org", name = "Johannes Wilm"},
 ]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
-  "Framework :: Django :: 5.1",
-  "License :: OSI Approved :: GNU Affero General Public License v3",
+  "Framework :: Django :: 6.0",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering",
   "Topic :: Text Editors :: Word Processors",
