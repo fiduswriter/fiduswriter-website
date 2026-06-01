@@ -61,7 +61,7 @@ jobs:
           pip install coveralls
           pip install packaging
           pip install webdriver-manager
-          pip install selenium
+          pip install selenium==4.43.0
           coverage run --concurrency=multiprocessing,thread $(which fiduswriter) setup --no-static
       - name: Run tests
         uses: nick-invision/retry@v3
