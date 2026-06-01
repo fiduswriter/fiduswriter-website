@@ -56,6 +56,7 @@ jobs:
           mv ../ci/configuration.py ./
           mv ../ci/.coveragerc ./
           pip install requests[security]
+          pip install orjson
           pip install coverage
           pip install coveralls
           pip install packaging
