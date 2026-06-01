@@ -61,7 +61,7 @@ jobs:
           pip install packaging
           pip install webdriver-manager
           pip install selenium
-          coverage run $(which fiduswriter) setup --no-static
+          coverage run --concurrency=multiprocessing,thread $(which fiduswriter) setup --no-static
       - name: Run tests
         uses: nick-invision/retry@v3
         with:
@@ -70,7 +70,7 @@ jobs:
           retry_on: error
           command: |
             cd fiduswriter
-            coverage run $(which fiduswriter) test website
+            coverage run --concurrency=multiprocessing,thread $(which fiduswriter) test website
       - name: Upload failed test screenshots
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
