@@ -1,4 +1,4 @@
-import {escapeText, localizeDate} from "../common"
+import {escapeText, localizeDate} from "fwtoolkit"
 
 const EVENT_TYPES = {
     submit: gettext("Submitted"),

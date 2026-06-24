@@ -1,4 +1,4 @@
-import {ensureCSS, getJson, setDocTitle, whenReady} from "../../common"
+import {ensureCSS, getJson, setDocTitle, whenReady} from "fwtoolkit"
 import {articleBodyTemplate} from "./templates"
 
 export class WebsiteArticle {

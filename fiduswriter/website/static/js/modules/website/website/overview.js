@@ -1,4 +1,4 @@
-import {getJson, setDocTitle, whenReady} from "../../common"
+import {getJson, setDocTitle, whenReady} from "fwtoolkit"
 import {overviewBodyTemplate, overviewContentTemplate} from "./templates"
 
 export class WebsiteOverview {

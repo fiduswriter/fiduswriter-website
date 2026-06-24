@@ -1,5 +1,5 @@
 import {HTMLExporter} from "@fiduswriter/document/exporter/html/index"
-import {postJson} from "../common"
+import {postJson} from "fwtoolkit"
 
 import {htmlExportTemplate} from "./templates"
 
