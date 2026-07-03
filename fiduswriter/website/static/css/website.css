@@ -144,8 +144,8 @@ div.filters div.filter span.author {
     cursor: pointer;
 }
 
-div.filters div.filter span.keyword.selected,
-div.filters div.filter span.author.selected {
+div.filters div.filter span.keyword.fw-selected,
+div.filters div.filter span.author.fw-selected {
     background-color: #1f1e1f;
     color: white;
 }

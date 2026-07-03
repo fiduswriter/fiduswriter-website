@@ -127,14 +127,14 @@ export class WebsiteOverview {
             }
             event.preventDefault()
             if (authorEl) {
-                if (authorEl.classList.contains("selected")) {
+                if (authorEl.classList.contains("fw-selected")) {
                     delete this.filters.author
                 } else {
                     const index = parseInt(authorEl.dataset.index)
                     this.filters.author = this.authors[index]
                 }
             } else {
-                if (keywordEl.classList.contains("selected")) {
+                if (keywordEl.classList.contains("fw-selected")) {
                     delete this.filters.keyword
                 } else {
                     const index = parseInt(keywordEl.dataset.index)

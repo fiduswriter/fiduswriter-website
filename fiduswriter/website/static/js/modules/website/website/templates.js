@@ -1,4 +1,4 @@
-import {escapeText} from "fwtoolkit"
+import {escapeText, gettext, staticUrl} from "fwtoolkit"
 
 const publicationOverviewTemplate = ({
     title,
@@ -132,7 +132,9 @@ export const overviewContentTemplate = ({
                     .map(
                         (keyword, index) =>
                             `<span class="keyword${
-                                filters.keyword === keyword ? " selected" : ""
+                                filters.keyword === keyword
+                                    ? " fw-selected"
+                                    : ""
                             }" data-index="${index}">${escapeText(
                                 keyword
                             )}</span>`
@@ -147,7 +149,7 @@ export const overviewContentTemplate = ({
                     .map(
                         (author, index) =>
                             `<span class="author${
-                                filters.author === author ? " selected" : ""
+                                filters.author === author ? " fw-selected" : ""
                             }" data-index="${index}">${escapeText(
                                 author
                             )}</span>`

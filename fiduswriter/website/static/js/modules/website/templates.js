@@ -1,4 +1,4 @@
-import {escapeText, localizeDate} from "fwtoolkit"
+import {escapeText, gettext, localizeDate} from "fwtoolkit"
 
 const EVENT_TYPES = {
     submit: gettext("Submitted"),
@@ -57,7 +57,7 @@ export const submitDialogTemplate = ({messages, status}) =>
             ${messageTr({messages})}
             <tr>
                 <th><h4 class="fw-tablerow-title">${gettext("Message")}</h4></th>
-                <td class="entry-field fw-inline">
+                <td class="fw-entry-field fw-inline">
                     <textarea id="submission-message" rows="8" style="resize:none;"></textarea>
                 </td>
             </tr>
