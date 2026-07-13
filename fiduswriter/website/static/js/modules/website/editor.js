@@ -1,5 +1,5 @@
+import {COMMENT_ONLY_ROLES, READ_ONLY_ROLES} from "@fiduswriter/editor"
 import {Dialog, addAlert, gettext, postJson} from "fwtoolkit"
-import {COMMENT_ONLY_ROLES, READ_ONLY_ROLES} from "../editor"
 
 import {PublishDoc} from "./publish_doc"
 import {submitDialogTemplate} from "./templates"
