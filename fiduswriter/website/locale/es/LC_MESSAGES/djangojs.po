@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-14 10:17+0000\n"
+"POT-Creation-Date: 2026-07-23 07:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,10 +143,10 @@ msgstr "Editar"
 msgid "Keywords"
 msgstr "Palabras clave"
 
-#: website/static/js/modules/website/website/templates.js:144
+#: website/static/js/modules/website/website/templates.js:146
 msgid "Authors"
 msgstr "Autores"
 
-#: website/static/js/modules/website/website/templates.js:176
+#: website/static/js/modules/website/website/templates.js:178
 msgid "Fidus Writer"
 msgstr "Escritor de Fidus"
