@@ -27,4 +27,4 @@ dependencies = ["fiduswriter"]
 
 [project.urls]
 homepage = "https://www.fiduswriter.org"
-repository = "https://www.github.com/fiduswriter/fiduswriter-website"
+repository = "https://www.github.com/fiduswriter/fiduswriter-website-plugin"
