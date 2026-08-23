@@ -1,6 +1,7 @@
 include LICENSE
 include README.md
 recursive-include fiduswriter/website/static *
+recursive-include fiduswriter/website/assets *
 recursive-include fiduswriter/website/fixtures *
 recursive-include fiduswriter/website/templates *
 recursive-include fiduswriter/website/locale *
