@@ -4,56 +4,31 @@ const {execSync} = require("child_process")
 
 function getFidusWriterPath() {
     try {
-        // Get all paths from fiduswriter.__path__ (handles namespace packages and editable installs)
-        const pathsOutput = execSync(
-            'python -c "import fiduswriter; import json; print(json.dumps([str(p) for p in fiduswriter.__path__]))"'
-        )
-            .toString()
-            .trim()
-
-        const paths = JSON.parse(pathsOutput)
-
-        // Get the current plugin directory to exclude it
-        const pluginDir = path.resolve(__dirname)
-
-        // Find the first path that looks like fiduswriter core
-        // (not the plugin, and has typical fiduswriter apps like 'document')
-        for (const testPath of paths) {
-            const resolvedPath = fs.realpathSync(testPath)
-
-            // Skip if this is the plugin directory
-            if (
-                resolvedPath === pluginDir ||
-                resolvedPath.startsWith(pluginDir)
-            ) {
-                continue
-            }
-
-            // Check if this looks like fiduswriter core (has document app)
-            if (
-                fs.existsSync(path.join(resolvedPath, "document")) ||
-                fs.existsSync(path.join(resolvedPath, "bibliography"))
-            ) {
-                return resolvedPath
-            }
+        let fwPath = ""
+        try {
+            fwPath = execSync(
+                "python -c \"import fiduswriter; print(next(filter(lambda path: '/site-packages/' in path, fiduswriter.__path__), ''))\""
+            )
+                .toString()
+                .trim()
+        } catch {
+            fwPath = ""
         }
-
-        // Fallback: try to find fiduswriter core by looking in parent directories
-        // Assumes fiduswriter and fiduswriter-website are sibling directories
-        const pluginParent = path.resolve(pluginDir, "..")
-        const fiduswriterCore = path.join(
-            pluginParent,
-            "fiduswriter",
+        if (fwPath) {
+            return fwPath
+        }
+        // Fallback: the backend is checked out as a sibling
+        // (fiduswriter-server-backend/fiduswriter).
+        const sibling = path.resolve(
+            __dirname,
+            "..",
+            "fiduswriter-server-backend",
             "fiduswriter"
         )
-        if (
-            fs.existsSync(fiduswriterCore) &&
-            fs.statSync(fiduswriterCore).isDirectory()
-        ) {
-            return fiduswriterCore
+        if (fs.existsSync(sibling) && fs.statSync(sibling).isDirectory()) {
+            return sibling
         }
-
-        throw new Error("Fidus Writer core not found")
+        throw new Error("Fidus Writer not found")
     } catch (error) {
         console.error(
             "Failed to find Fidus Writer installation:",
@@ -65,26 +40,39 @@ function getFidusWriterPath() {
 
 const fidusWriterPath = getFidusWriterPath()
 
+// Only validate custom property usage against CSS files that actually
+// exist. In CI the plugin pre-commit job installs fiduswriter as a pip
+// package whose static-libs/ has not been generated (that happens during
+// npm setup), so both candidate files may be missing there.
+const cssImportFrom = [
+    path.join(fidusWriterPath, "static-libs/css/fwtoolkit/colors.css"),
+    path.join(fidusWriterPath, "static-libs/css/colors.css")
+].filter(cssPath => fs.existsSync(cssPath))
+
+const rules = {
+    "color-hex-length": "long",
+    "max-nesting-depth": 2
+}
+
+if (cssImportFrom.length > 0) {
+    rules["csstools/value-no-unknown-custom-properties"] = [
+        true,
+        {
+            importFrom: cssImportFrom
+        }
+    ]
+}
+
+rules["selector-class-pattern"] = [
+    "^(([a-z][a-z0-9]*)(-[a-z0-9]+)*)|(ProseMirror(-[a-z0-9]+)*)$",
+    {
+        message:
+            "Selector should use lowercase and separate words with hyphens (selector-class-pattern)"
+    }
+]
+
 module.exports = {
     extends: "stylelint-config-standard",
     plugins: ["stylelint-value-no-unknown-custom-properties"],
-    rules: {
-        "color-hex-length": "long",
-        "max-nesting-depth": 2,
-        "csstools/value-no-unknown-custom-properties": [
-            true,
-            {
-                importFrom: [
-                    path.join(fidusWriterPath, "base/static/css/colors.css")
-                ]
-            }
-        ],
-        "selector-class-pattern": [
-            "^(([a-z][a-z0-9]*)(-[a-z0-9]+)*)|(ProseMirror(-[a-z0-9]+)*)$",
-            {
-                message:
-                    "Selector should use lowercase and separate words with hyphens (selector-class-pattern)"
-            }
-        ]
-    }
+    rules
 }
